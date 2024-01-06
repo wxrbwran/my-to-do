@@ -38,6 +38,7 @@ namespace MyToDO.Views
       {
         mainWindowDrawerHost.IsLeftDrawerOpen = false;
       };
+      this.Loaded += (s, e) => {  };
 
     }
     public void HandleMinMaxWindow()

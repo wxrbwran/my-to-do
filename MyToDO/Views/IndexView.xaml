@@ -116,16 +116,26 @@
             <materialDesign:PackIcon Kind="Add" />
           </Button>
         </DockPanel>
-        <ListBox ItemsSource="{Binding ToDoDtos}" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+        <ListBox
+          HorizontalContentAlignment="Stretch"
+          ItemsSource="{Binding ToDoDtos}"
+          ScrollViewer.VerticalScrollBarVisibility="Hidden">
           <ListBox.ItemTemplate>
             <DataTemplate>
-              <StackPanel MaxHeight="80" Margin="0,5">
-                <TextBlock
-                  FontSize="14"
-                  FontWeight="Bold"
-                  Text="{Binding Title}" />
-                <TextBlock Opacity="0.5" Text="{Binding Content}" />
-              </StackPanel>
+              <DockPanel
+                MaxHeight="80"
+                Margin="0,5"
+                LastChildFill="False">
+                <ToggleButton DockPanel.Dock="Right" />
+                <StackPanel>
+                  <TextBlock
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Text="{Binding Title}" />
+                  <TextBlock Opacity="0.5" Text="{Binding Content}" />
+                </StackPanel>
+
+              </DockPanel>
             </DataTemplate>
           </ListBox.ItemTemplate>
         </ListBox>
@@ -157,16 +167,26 @@
             <materialDesign:PackIcon Kind="Add" />
           </Button>
         </DockPanel>
-        <ListBox ItemsSource="{Binding MemoDtos}" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+        <ListBox
+          HorizontalContentAlignment="Stretch"
+          ItemsSource="{Binding MemoDtos}"
+          ScrollViewer.VerticalScrollBarVisibility="Hidden">
           <ListBox.ItemTemplate>
             <DataTemplate>
-              <StackPanel MaxHeight="80" Margin="0,5">
-                <TextBlock
-                  FontSize="14"
-                  FontWeight="Bold"
-                  Text="{Binding Title}" />
-                <TextBlock Opacity=".5" Text="{Binding Content}" />
-              </StackPanel>
+              <DockPanel
+                MaxHeight="80"
+                Margin="0,5"
+                LastChildFill="False">
+                <ToggleButton DockPanel.Dock="Right" />
+                <StackPanel>
+                  <TextBlock
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Text="{Binding Title}" />
+                  <TextBlock Opacity="0.5" Text="{Binding Content}" />
+                </StackPanel>
+
+              </DockPanel>
             </DataTemplate>
           </ListBox.ItemTemplate>
         </ListBox>
