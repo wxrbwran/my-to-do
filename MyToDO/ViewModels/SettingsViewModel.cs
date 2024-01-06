@@ -29,9 +29,9 @@ namespace MyToDO.ViewModels
 
     void CreateMenuBars()
     {
-      MenuBars.Add(new MenuBar() { Icon = "Home", Title = "个性化", NameSpace = "SkinView" });
-      MenuBars.Add(new MenuBar() { Icon = "NotebookOutline", Title = "系统设置", NameSpace = "" });
-      MenuBars.Add(new MenuBar() { Icon = "NotebookPlus", Title = "关于更多", NameSpace = "AboutView" });
+      MenuBars.Add(new MenuBar() { Icon = "Palette", Title = "个性化", NameSpace = "SkinView" });
+      MenuBars.Add(new MenuBar() { Icon = "Cog", Title = "系统设置", NameSpace = "" });
+      MenuBars.Add(new MenuBar() { Icon = "Information", Title = "关于更多", NameSpace = "AboutView" });
     }
 
     private void Navagate(MenuBar bar)
