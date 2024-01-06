@@ -3,12 +3,58 @@
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:ext="clr-namespace:MyToDO.Extensions"
+  xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
   xmlns:local="clr-namespace:MyToDO.Views"
+  xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:prism="http://prismlibrary.com/"
   d:DesignHeight="450"
   d:DesignWidth="800"
   mc:Ignorable="d">
   <Grid>
-    <TextBlock FontSize="80" Text="settings" />
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <TextBlock
+      Margin="20,10"
+      FontSize="26"
+      Text="设置" />
+    <Border BorderBrush="#ddd" BorderThickness="0,0,0,0.3" />
+    <Grid Grid.Row="1" Margin="24">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="220" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <ListBox
+        x:Name="memuBars"
+        ItemContainerStyle="{StaticResource MainWindowDrawerListBoxStyle}"
+        ItemsSource="{Binding MenuBars}">
+        <i:Interaction.Triggers>
+          <i:EventTrigger EventName="SelectionChanged">
+            <i:InvokeCommandAction Command="{Binding NavigateCommond}" CommandParameter="{Binding ElementName=memuBars, Path=SelectedItem}" />
+          </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <StackPanel Background="Transparent" Orientation="Horizontal">
+              <materialDesign:PackIcon
+                Margin="15,0"
+                VerticalAlignment="Center"
+                Kind="{Binding Icon}" />
+              <TextBlock
+                Margin="10,0"
+                VerticalAlignment="Center"
+                Text="{Binding Title}" />
+            </StackPanel>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+      <ContentControl
+        Grid.Column="1"
+        Margin="10,0"
+        prism:RegionManager.RegionName="{x:Static ext:PrismRegionManager.SettingsViewRegionName}" />
+    </Grid>
   </Grid>
 </UserControl>
