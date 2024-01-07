@@ -12,7 +12,5 @@ namespace MyToDo.Shared.Dtos
 
     public string Content { get; set; }
 
-    public int Status { get; set; }
-
   }
 }

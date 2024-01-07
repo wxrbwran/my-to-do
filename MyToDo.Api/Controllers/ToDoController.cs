@@ -3,6 +3,7 @@ using MyToDo.Api.Models;
 using MyToDo.Api.Services;
 using MyToDo.Api.UnitOfWork;
 using MyToDo.Shared.Dtos;
+using MyToDo.Shared.Parameters;
 
 namespace MyToDo.Api.Controllers;
 
@@ -21,7 +22,7 @@ public class ToDoController: ControllerBase
   public async Task<ApiResponse> GetAsync(int id) => await toDoService.GetByIdAsync(id);
 
   [HttpGet]
-  public async Task<ApiResponse> GetAllAsync() => await toDoService.GetAllAsync();
+  public async Task<ApiResponse> GetAllAsync([FromQuery] QueryParameter parameter) => await toDoService.GetAllAsync(parameter);
   
   [HttpPost]
   public async Task<ApiResponse> AddAsync([FromBody] ToDoDto todo) => await toDoService.AddAsync(todo);

@@ -6,31 +6,31 @@ using MyToDo.Shared.Parameters;
 
 namespace MyToDo.Api.Services
 {
-  public class ToDoService : IToDoService
+  public class MemoService : IMemoService
   {
     private readonly IUnitOfWork worker;
     private readonly IMapper mapper;
-    private IRepository<ToDo> toDoRepo;
+    private IRepository<Memo> repo;
 
-    public ToDoService(IUnitOfWork unitOfWork, IMapper mapper)
+    public MemoService(IUnitOfWork unitOfWork, IMapper mapper)
     {
       this.worker = unitOfWork;
       this.mapper = mapper;
-      this.toDoRepo = unitOfWork.GetRepository<ToDo>();
+      this.repo = unitOfWork.GetRepository<Memo>();
     }
 
-    public async Task<ApiResponse> AddAsync(ToDoDto model)
+    public async Task<ApiResponse> AddAsync(MemoDto model)
     {
       try
       {
-        ToDo toDo = mapper.Map<ToDo>(model);
-        await toDoRepo.InsertAsync(toDo);
+        Memo memo = mapper.Map<Memo>(model);
+        await repo.InsertAsync(memo);
         int count = await worker.SaveChangesAsync();
         if (count > 0)
         {
-          return new ApiResponse(true, toDo);
+          return new ApiResponse(true, memo);
         }
-        return new ApiResponse("新建待办失败");
+        return new ApiResponse("新建备忘录失败");
       } catch (Exception ex)
       {
         return new ApiResponse(ex.Message);
@@ -41,14 +41,14 @@ namespace MyToDo.Api.Services
     {
       try
       {
-        ToDo toDo = await toDoRepo.FindAsync(id);
-        toDoRepo.Delete(toDo);
+        var memo = await repo.FindAsync(id);
+        repo.Delete(memo);
         int count = await worker.SaveChangesAsync();
         if (count > 0)
         {
           return new ApiResponse(true, "");
         }
-        return new ApiResponse("删除待办失败");
+        return new ApiResponse("删除备忘录失败");
       }
       catch (Exception ex)
       {
@@ -56,23 +56,22 @@ namespace MyToDo.Api.Services
       }
     }
 
-    public async Task<ApiResponse> UpdateAsync(ToDoDto model)
+    public async Task<ApiResponse> UpdateAsync(MemoDto model)
     {
       try
       {
-        ToDo oldToDo = await toDoRepo.GetFirstOrDefaultAsync(predicate: t => t.Id.Equals(model.Id));
-        oldToDo.Title = model.Title;
-        oldToDo.Content = model.Content;
-        oldToDo.Status = model.Status;
-        oldToDo.UpdatedAt = DateTime.Now;
+        var oldMemo = await repo.GetFirstOrDefaultAsync(predicate: t => t.Id.Equals(model.Id));
+        oldMemo.Title = model.Title;
+        oldMemo.Content = model.Content;
+        oldMemo.UpdatedAt = DateTime.Now;
 
-        toDoRepo.Update(oldToDo);
+        repo.Update(oldMemo);
         int count = await worker.SaveChangesAsync();
         if (count > 0)
         {
-          return new ApiResponse(true, oldToDo);
+          return new ApiResponse(true, oldMemo);
         }
-        return new ApiResponse("更新待办失败");
+        return new ApiResponse("更新备忘录失败");
       }
       catch (Exception ex)
       {
@@ -85,18 +84,13 @@ namespace MyToDo.Api.Services
     {
       try
       {
-        //var toDos = await toDoRepo.GetAllAsync(predicate: t=>
-        //  string.IsNullOrWhiteSpace(parameter.Search) ? true : t.Title.Contains(parameter.Search),
-        //  pageIndex: parameter.PageIndex,
-        //  pageSize: parameter.PageSize,
-        //  orderBy: source => source.OrderByDescending(t => t.CreatedAt)
-        //);
-        var todos = await toDoRepo.GetPagedListAsync(predicate:
+      
+        var memos = await repo.GetPagedListAsync(predicate:
                   x => string.IsNullOrWhiteSpace(parameter.Search) ? true : x.Title.Contains(parameter.Search),
                   pageIndex: parameter.PageIndex,
                   pageSize: parameter.PageSize,
                   orderBy: source => source.OrderByDescending(t => t.CreatedAt));
-        return new ApiResponse(true, todos);
+        return new ApiResponse(true, memos);
       }
       catch (Exception ex)
       {
@@ -108,12 +102,12 @@ namespace MyToDo.Api.Services
     {
       try
       {
-        ToDo toDo = await toDoRepo.GetFirstOrDefaultAsync(predicate: t => t.Id.Equals(id));
-        if (toDo != null)
+        var memo = await repo.GetFirstOrDefaultAsync(predicate: t => t.Id.Equals(id));
+        if (memo != null)
         {
-          return new ApiResponse(true, toDo);
+          return new ApiResponse(true, memo);
         }
-        return new ApiResponse("查找待办失败");
+        return new ApiResponse("查找备忘录失败");
       }
       catch (Exception ex)
       {
