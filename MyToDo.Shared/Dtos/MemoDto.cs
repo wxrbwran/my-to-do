@@ -8,9 +8,13 @@ namespace MyToDo.Shared.Dtos
 {
   public class MemoDto: BaseDto
   {
-    public string Title { get; set; }
+    private string title;
+    private string content;
 
-    public string Content { get; set; }
+    public string Title { get => title; set { title = value; OnPropertyChanged(); } }
+
+    public string Content { get => content; set { content = value; OnPropertyChanged(); } }
+
 
   }
 }

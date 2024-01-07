@@ -45,6 +45,7 @@ namespace MyToDo.Api
 
           services.AddTransient<IToDoService, ToDoService>();
           services.AddTransient<IMemoService, MemoService>();
+          services.AddTransient<IAuthService, AuthService>();
 
       // 
       var mapperConfiguration = new MapperConfiguration(config => {

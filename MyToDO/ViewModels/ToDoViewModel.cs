@@ -1,4 +1,6 @@
-﻿using MyToDO.Common.Models;
+﻿using MyToDo.Shared.Dtos;
+using MyToDo.Shared.Parameters;
+using MyToDO.Service;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -13,12 +15,16 @@ namespace MyToDO.ViewModels
 {
   public class ToDoViewModel:BindableBase
   {
-    public ToDoViewModel()
+    private readonly IToDoService service;
+
+    public ToDoViewModel(IToDoService service)
 		{
 			TodoDtos = new ObservableCollection<ToDoDto>();
       ShowAddToDoCommand = new DelegateCommand(ShowAddToDo);
-			CreateTestDtos();
-		}
+      this.service = service;
+      HandleGetToDoLists();
+
+    }
 
     private bool isRightDrawerOpen;
 
@@ -38,17 +44,24 @@ namespace MyToDO.ViewModels
 
     private ObservableCollection<ToDoDto> todoDtos;
 
-		public ObservableCollection<ToDoDto> TodoDtos
+    public ObservableCollection<ToDoDto> TodoDtos
 		{
 			get { return todoDtos; }
 			set { todoDtos = value; RaisePropertyChanged();  }
 		}
 
-    void CreateTestDtos()
+    public async void HandleGetToDoLists()
     {
-      for (int i = 0; i < 20; i++)
+      var resp = await service.GetAllAsync(new QueryParameter() {
+        PageIndex = 0,
+        PageSize = 10,
+      });
+      if(resp.Status)
       {
-        TodoDtos.Add(new ToDoDto() {  Id = i, Title=$"待办{i}", Content=$"待办内容{i}", CreatedAt=DateTime.Now });
+        foreach (var item in resp.Result.Items)
+        {
+          TodoDtos.Add(item);
+        }
       }
     }
   }

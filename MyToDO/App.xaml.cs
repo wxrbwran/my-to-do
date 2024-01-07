@@ -1,4 +1,6 @@
-﻿using MyToDO.ViewModels;
+﻿using DryIoc;
+using MyToDO.Service;
+using MyToDO.ViewModels;
 using MyToDO.Views;
 using Prism.DryIoc;
 using Prism.Ioc;
@@ -28,6 +30,12 @@ namespace MyToDO
       containerRegistry.RegisterForNavigation<SkinView, SkinViewModel>();
       containerRegistry.RegisterForNavigation<AboutView>();
 
+      containerRegistry.GetContainer().Register<HttpRestClient>(
+        made: Parameters.Of.Type<string>(serviceKey: "webUrl")
+      );
+      containerRegistry.GetContainer().RegisterInstance(@"http://localhost:57975/", serviceKey: "webUrl");
+
+      containerRegistry.Register<IToDoService, ToDoService>();
     }
   }
 

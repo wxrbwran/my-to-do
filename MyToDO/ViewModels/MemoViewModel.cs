@@ -1,4 +1,5 @@
-﻿using MyToDO.Common.Models;
+﻿using MyToDo.Shared.Dtos;
+using MyToDO.Common.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
