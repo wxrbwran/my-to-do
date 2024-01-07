@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决�
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyToDo.Shared", "MyToDo.Shared\MyToDo.Shared.csproj", "{6B77E960-4113-40B6-8B06-36A552AE5B4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{4B997C62-1041-4655-ABE1-5EF95F3CB4F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B997C62-1041-4655-ABE1-5EF95F3CB4F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B997C62-1041-4655-ABE1-5EF95F3CB4F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B77E960-4113-40B6-8B06-36A552AE5B4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B77E960-4113-40B6-8B06-36A552AE5B4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B77E960-4113-40B6-8B06-36A552AE5B4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B77E960-4113-40B6-8B06-36A552AE5B4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

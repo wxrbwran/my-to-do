@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyToDo.Api;
 
@@ -10,9 +11,11 @@ using MyToDo.Api;
 namespace MyToDo.Api.Migrations
 {
     [DbContext(typeof(MyToDoContext))]
-    partial class MyToDoContextModelSnapshot : ModelSnapshot
+    [Migration("20240107122314_updated-deleted-nullable")]
+    partial class updateddeletednullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");

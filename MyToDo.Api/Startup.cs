@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MyToDo.Api.Extensions;
+using MyToDo.Api.Models;
+using MyToDo.Api.Repository;
+using MyToDo.Api.Services;
+using MyToDo.Api.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,14 +36,28 @@ namespace MyToDo.Api
           {
             var connectionString = Configuration.GetConnectionString("ToDoConnection");
             option.UseSqlite(connectionString);
+          })
+          .AddUnitOfWork<MyToDoContext>()
+          .AddCustomRepository<ToDo, ToDoRepository>()
+          .AddCustomRepository<Memo, MemoRepository>()
+          .AddCustomRepository<User, UserRepository>()
+          ;
+
+          services.AddTransient<IToDoService, ToDoService>();
+
+          // 
+          var mapperConfiguration = new MapperConfiguration(config => {
+            config.AddProfile(new AutoMapperProFile());
           });
 
-            services.AddControllers();
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyToDo.Api", Version = "v1" });
-            });
+          services.AddSingleton(mapperConfiguration.CreateMapper());
+          
+          services.AddControllers();
+          services.AddEndpointsApiExplorer();
+          services.AddSwaggerGen(c =>
+          {
+              c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyToDo.Api", Version = "v1" });
+          });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,11 +65,11 @@ namespace MyToDo.Api
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+              app.UseDeveloperExceptionPage();
+              app.UseSwagger();
+              app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyToDo.Api v1"));
             }
-
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyToDo.Api v1"));
+           
             app.UseRouting();
             app.UseAuthorization();
 
