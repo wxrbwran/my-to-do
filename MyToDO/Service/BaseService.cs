@@ -22,7 +22,7 @@ namespace MyToDO.Service
     public async Task<ApiResponse<TEntity>> AddAsync(TEntity entity)
     {
       BaseRequest req = new BaseRequest();
-      req.Method = RestSharp.Method.Post;
+      req.Method = RestSharp.Method.POST;
       req.Route = $"api/{serviceName}/Add";
       req.Paramster = entity;
       var resp = await client.ExecuteAsync<TEntity>(req);
@@ -32,7 +32,7 @@ namespace MyToDO.Service
     public async Task<ApiResponse> DeleteAsync(int id)
     {
       BaseRequest req = new BaseRequest();
-      req.Method = RestSharp.Method.Delete;
+      req.Method = RestSharp.Method.DELETE;
       req.Route = $"api/{serviceName}/Delete?id=${id}";
       var resp = await client.ExecuteAsync(req);
       return resp;
@@ -41,7 +41,7 @@ namespace MyToDO.Service
     public async Task<ApiResponse<TEntity>> UpdateAsync(TEntity entity)
     {
       BaseRequest req = new BaseRequest();
-      req.Method = RestSharp.Method.Post;
+      req.Method = RestSharp.Method.POST;
       req.Route = $"api/{serviceName}/Update";
       req.Paramster = entity;
       var resp = await client.ExecuteAsync<TEntity>(req);
@@ -51,7 +51,7 @@ namespace MyToDO.Service
     public async Task<ApiResponse<PagedList<TEntity>>> GetAllAsync(QueryParameter parameter)
     {
       BaseRequest req = new BaseRequest();
-      req.Method = RestSharp.Method.Get;
+      req.Method = RestSharp.Method.GET;
       req.Route = $"api/{serviceName}/GetAll?pageIndex={parameter.PageIndex}" +
         $"&pageSize={parameter.PageSize}&search={parameter.Search}";
       var resp = await client.ExecuteAsync<PagedList<TEntity>>(req);
@@ -61,7 +61,7 @@ namespace MyToDO.Service
     public async Task<ApiResponse<TEntity>> GetAsync(int id)
     {
       BaseRequest req = new BaseRequest();
-      req.Method = RestSharp.Method.Get;
+      req.Method = RestSharp.Method.GET;
       req.Route = $"api/{serviceName}/Get?id=${id}";
       var resp = await client.ExecuteAsync<TEntity>(req);
       return resp;

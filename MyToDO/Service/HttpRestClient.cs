@@ -17,33 +17,34 @@ namespace MyToDO.Service
     public HttpRestClient(string apiUrl)
     {
       this.apiUrl = apiUrl;
-      client = new RestClient(new Uri(apiUrl));
+      client = new RestClient();
     }
 
     public async Task<ApiResponse> ExecuteAsync(BaseRequest baseRequest)
     {
-      RestRequest request = new RestRequest(baseRequest.Route, baseRequest.Method);
+      RestRequest request = new RestRequest(baseRequest.Method);
       request.AddHeader("Content-Type", baseRequest.ContentType);
       if(baseRequest.Paramster != null)
       {
         request.AddParameter("param", JsonConvert.SerializeObject(baseRequest.Paramster), ParameterType.RequestBody);
       }
-
-      RestResponse restResponse = await client.ExecuteAsync(request);
+      client.BaseUrl = (new Uri(apiUrl + baseRequest.Route));
+      IRestResponse restResponse = await client.ExecuteAsync(request);
 
       return JsonConvert.DeserializeObject<ApiResponse>(restResponse.Content);
     }
 
     public async Task<ApiResponse<T>> ExecuteAsync<T>(BaseRequest baseRequest)
     {
-      RestRequest request = new RestRequest(baseRequest.Route, baseRequest.Method);
+      RestRequest request = new RestRequest(baseRequest.Method);
       request.AddHeader("Content-Type", baseRequest.ContentType);
       if (baseRequest.Paramster != null)
       {
         request.AddParameter("param", JsonConvert.SerializeObject(baseRequest.Paramster), ParameterType.RequestBody);
       }
+      client.BaseUrl = (new Uri(apiUrl + baseRequest.Route));
 
-      RestResponse restResponse = await client.ExecuteAsync(request);
+      IRestResponse restResponse = await client.ExecuteAsync(request);
 
       return JsonConvert.DeserializeObject<ApiResponse<T>>(restResponse.Content);
     }

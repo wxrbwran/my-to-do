@@ -11,10 +11,11 @@ namespace MyToDO.Service
 {
   public class ToDoService :BaseService<ToDoDto>, IToDoService
   {
+    private readonly HttpRestClient client;
 
     public ToDoService(HttpRestClient client) : base(client, "ToDo")
     {
-     
+      this.client = client;
     }
   }
 }
