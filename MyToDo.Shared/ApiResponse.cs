@@ -3,6 +3,10 @@ namespace MyToDo.Shared
 {
   public class ApiResponse
   {
+    public ApiResponse()
+    {
+    }
+
     public ApiResponse(bool status, object result)
     {
       this.Status = status;
