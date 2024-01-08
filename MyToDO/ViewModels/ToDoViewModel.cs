@@ -24,9 +24,19 @@ namespace MyToDO.ViewModels
 			TodoDtos = new ObservableCollection<ToDoDto>();
       ShowAddToDoCommand = new DelegateCommand(ShowAddToDo);
       this.service = service;
-      //HandleGetToDoLists();
+      SelectedCommand = new DelegateCommand<ToDoDto>(HandleSelectToDoItem);
+		}
 
+		public DelegateCommand<ToDoDto> SelectedCommand { get; private set; }
+
+    private string search;
+
+    public string Search
+		{
+      get { return search; }
+      set { search = value; RaisePropertyChanged(); }
     }
+
 
     private bool isRightDrawerOpen;
 
@@ -36,13 +46,40 @@ namespace MyToDO.ViewModels
       set { isRightDrawerOpen = value; RaisePropertyChanged(); }
     }
 
+    /// <summary>
+    /// 编辑选中/新增时对象
+    /// </summary>
+    private ToDoDto currentDto;
+    public ToDoDto CurrentDto
+		{
+      get { return currentDto; }
+      set { currentDto = value; RaisePropertyChanged(); }
+    }
 
     private void ShowAddToDo()
     {
       IsRightDrawerOpen = true;
     }
 
-    public DelegateCommand ShowAddToDoCommand { get; private set; }
+		private async void HandleSelectToDoItem(ToDoDto dto)
+		{
+      try
+      {
+				UpdateLoading(true);
+				IsRightDrawerOpen = true;
+				var resp = await service.GetFirstOfDefaultAsync(dto.Id);
+				if (resp.Status)
+				{
+
+					CurrentDto = resp.Result;
+					IsRightDrawerOpen = true;
+				}
+				
+			} catch (Exception ex) { }
+      finally { UpdateLoading(false);  }
+		}
+
+		public DelegateCommand ShowAddToDoCommand { get; private set; }
 
     private ObservableCollection<ToDoDto> todoDtos;
 
