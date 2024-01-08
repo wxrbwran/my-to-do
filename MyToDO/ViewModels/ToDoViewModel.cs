@@ -54,7 +54,7 @@ namespace MyToDO.ViewModels
     {
       var resp = await service.GetAllAsync(new QueryParameter() {
         PageIndex = 0,
-        PageSize = 10,
+        PageSize = 100,
       });
       if(resp.Status)
       {
