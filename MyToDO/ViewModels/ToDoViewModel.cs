@@ -2,7 +2,9 @@
 using MyToDo.Shared.Parameters;
 using MyToDO.Service;
 using Prism.Commands;
+using Prism.Ioc;
 using Prism.Mvvm;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,16 +15,16 @@ using System.Windows;
 
 namespace MyToDO.ViewModels
 {
-  public class ToDoViewModel:BindableBase
+  public class ToDoViewModel:NavigationViewModel
   {
     private readonly IToDoService service;
 
-    public ToDoViewModel(IToDoService service)
+    public ToDoViewModel(IToDoService service, IContainerProvider provider): base(provider) 
 		{
 			TodoDtos = new ObservableCollection<ToDoDto>();
       ShowAddToDoCommand = new DelegateCommand(ShowAddToDo);
       this.service = service;
-      HandleGetToDoLists();
+      //HandleGetToDoLists();
 
     }
 
@@ -50,8 +52,12 @@ namespace MyToDO.ViewModels
 			set { todoDtos = value; RaisePropertyChanged();  }
 		}
 
-    public async void HandleGetToDoLists()
+    /// <summary>
+    /// 获取数据
+    /// </summary>
+    public async void GetDataAsync()
     {
+      UpdateLoading(true);
       var resp = await service.GetAllAsync(new QueryParameter() {
         PageIndex = 0,
         PageSize = 100,
@@ -63,6 +69,13 @@ namespace MyToDO.ViewModels
           TodoDtos.Add(item);
         }
       }
-    }
-  }
+			UpdateLoading(false);
+		}
+
+		public override void OnNavigatedTo(NavigationContext navigationContext)
+		{
+			base.OnNavigatedTo(navigationContext);
+      GetDataAsync();
+		}
+	}
 }

@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using MyToDO.Events;
+using MyToDO.Extensions;
+using Prism.Events;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,7 +19,9 @@ namespace MyToDO.Views
   /// </summary>
   public partial class MainWindow : Window
   {
-    public MainWindow()
+		// private readonly IEventAggregator aggregator;
+
+		public MainWindow(IEventAggregator aggregator)
     {
       InitializeComponent();
       btnMin.Click += (s, e) => {
@@ -39,8 +44,17 @@ namespace MyToDO.Views
         mainWindowDrawerHost.IsLeftDrawerOpen = false;
       };
       this.Loaded += (s, e) => {  };
+      
+      // 注册等待消息窗口
+			aggregator.Register(arg => {
+        MainWindowDialogHost.IsOpen = arg.IsOpen;
+        if (arg.IsOpen)
+        {
+          MainWindowDialogHost.DialogContent = new ProgressView();
 
-    }
+				}
+			});
+		}
     public void HandleMinMaxWindow()
     {
       if (this.WindowState == WindowState.Maximized)
