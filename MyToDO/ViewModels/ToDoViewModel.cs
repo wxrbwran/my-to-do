@@ -38,14 +38,6 @@ namespace MyToDO.ViewModels
       set { isEmptyData = value; RaisePropertyChanged(); }
     }
 
-    private string search;
-
-    public string Search
-		{
-      get { return search; }
-      set { search = value; RaisePropertyChanged(); }
-    }
-
     private int selectedIndex;
 
     public int SelectedIndex
@@ -55,6 +47,13 @@ namespace MyToDO.ViewModels
     }
 
 
+    private string search;
+
+    public string Search
+		{
+      get { return search; }
+      set { search = value; RaisePropertyChanged(); }
+    }
 
     private bool isRightDrawerOpen;
 
@@ -74,6 +73,7 @@ namespace MyToDO.ViewModels
       set { currentDto = value; RaisePropertyChanged(); }
     }
     #region simple command
+
 
     public DelegateCommand<string> ExecuteCommand { get; private set; }
 
@@ -165,6 +165,7 @@ namespace MyToDO.ViewModels
       }
       catch (Exception ex) { }
     }
+		public DelegateCommand ShowAddToDoCommand { get; private set; }
 
     private ObservableCollection<ToDoDto> todoDtos;
 
