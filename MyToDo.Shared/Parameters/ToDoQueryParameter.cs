@@ -8,6 +8,6 @@ namespace MyToDo.Shared.Parameters
 {
   public class ToDoQueryParameter: QueryParameter
   {
-        public int Status { get; set; }
+        public int? Status { get; set; }
     }
 }

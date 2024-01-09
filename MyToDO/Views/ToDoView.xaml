@@ -37,19 +37,17 @@
               <ComboBoxItem>已完成</ComboBoxItem>
             </ComboBox>
           </StackPanel>
-          <TextBox
+					<TextBox
 						Text="{Binding CurrentDto.Title}"
             Margin="0,20"
             md:HintAssist.Hint="请输入待办标题"
-            DockPanel.Dock="Top"
-            Text="{Binding CurrentDto.Title}" />
-          <TextBox
+            DockPanel.Dock="Top" />
+					<TextBox
 						Text="{Binding CurrentDto.Content}"
             MinHeight="120"
             MaxHeight="450"
             md:HintAssist.Hint="请输入待办内容"
             DockPanel.Dock="Top"
-            Text="{Binding CurrentDto.Content}"
             TextWrapping="WrapWithOverflow" />
           <Button
             Margin="0,20,0,0"
@@ -66,7 +64,6 @@
         </Grid.RowDefinitions>
         <StackPanel Margin="15,0,0,0" Orientation="Horizontal">
           <TextBox
-						Text="{Binding Search,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Width="250"
             VerticalAlignment="Center"
             md:HintAssist.Hint="查找待办事项"
@@ -125,12 +122,6 @@
                     MinHeight="180"
                     MaxHeight="250"
                     Margin="8">
-                    <i:Interaction.Triggers>
-                      <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction Command="{Binding DataContext.SelectedCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" CommandParameter="{Binding}" />
-                      </i:EventTrigger>
-                    </i:Interaction.Triggers>
-=======
 										<i:Interaction.Triggers>
 											<i:EventTrigger  EventName="MouseLeftButtonUp">
 												<i:InvokeCommandAction

@@ -181,12 +181,13 @@ namespace MyToDO.ViewModels
     public async void GetDataAsync()
     {
       UpdateLoading(true);
-      int? status = SelectedIndex == 0 ? null : SelectedIndex == 1 ? 1 : 0; 
-      var resp = await service.GetAllAsync(new QueryParameter() {
+      int? Status = SelectedIndex == 0 ? null : SelectedIndex == 2 ? 1 : 0; 
+      var resp = await service.GetFilterAllAsync(new ToDoQueryParameter() {
         PageIndex = 0,
         PageSize = 100,
         Search = Search,
-      });
+        Status = Status
+			});
       if(resp.Status)
       {
         todoDtos.Clear();

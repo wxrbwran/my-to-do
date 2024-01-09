@@ -24,8 +24,11 @@ public class ToDoController: ControllerBase
 
   [HttpGet]
   public async Task<ApiResponse> GetAllAsync([FromQuery] QueryParameter parameter) => await toDoService.GetAllAsync(parameter);
-  
-  [HttpPost]
+
+	[HttpGet]
+	public async Task<ApiResponse> GetFilterAllAsync([FromQuery] ToDoQueryParameter parameter) => await toDoService.GetFilterAllAsync(parameter);
+
+	[HttpPost]
   public async Task<ApiResponse> AddAsync([FromBody] ToDoDto todo) => await toDoService.AddAsync(todo);
 
   [HttpPost]

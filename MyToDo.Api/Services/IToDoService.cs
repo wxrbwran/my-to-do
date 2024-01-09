@@ -7,6 +7,6 @@ namespace MyToDo.Api.Services
 {
   public interface IToDoService: IBaseService<ToDoDto>
   {
-    public Task<ApiResponse<PagedList<ToDoDto>>> GetAllFilterAsync(ToDoQueryParameter parameter);
-  }
+		Task<ApiResponse> GetFilterAllAsync(ToDoQueryParameter queryParameter);
+	}
 }
