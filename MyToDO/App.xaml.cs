@@ -1,4 +1,5 @@
 ﻿using DryIoc;
+using MyToDO.Common;
 using MyToDO.Service;
 using MyToDO.ViewModels;
 using MyToDO.Views;
@@ -20,7 +21,17 @@ namespace MyToDO
       return Container.Resolve<MainWindow>();
     }
 
-    protected override void RegisterTypes(IContainerRegistry containerRegistry)
+		protected override void OnInitialized()
+		{
+			var configureService = App.Current.MainWindow.DataContext as IConfigureService;
+      if (configureService != null)
+      {
+        configureService.Configure();
+      }
+			base.OnInitialized();
+		}
+
+		protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
       containerRegistry.RegisterForNavigation<IndexView, IndexViewModel>();
       containerRegistry.RegisterForNavigation<MemoView, MemoViewModel>();
