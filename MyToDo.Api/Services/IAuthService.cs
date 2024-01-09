@@ -1,4 +1,5 @@
 ﻿using MyToDo.Api.Models;
+using MyToDo.Shared;
 using MyToDo.Shared.Dtos;
 
 namespace MyToDo.Api.Services

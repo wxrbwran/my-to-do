@@ -13,14 +13,21 @@ namespace MyToDo.Api
   {
     public static void Main(string[] args)
     {
-      CreateHostBuilder(args).Build().Run();
+      var config = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("hosting.json", true)
+        .Build();
+      CreateHostBuilder(args, config).Build().Run();
     }
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
+    public static IHostBuilder CreateHostBuilder(string[] args, IConfiguration config) =>
         Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-              webBuilder.UseStartup<Startup>();
-            });
+        
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
+          Console.WriteLine(config);
+          webBuilder.UseConfiguration(config);
+          webBuilder.UseStartup<Startup>();
+        });
   }
 }

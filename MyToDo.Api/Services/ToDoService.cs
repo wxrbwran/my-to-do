@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MyToDo.Api.Models;
 using MyToDo.Api.UnitOfWork;
+using MyToDo.Shared;
 using MyToDo.Shared.Dtos;
 using MyToDo.Shared.Parameters;
 
@@ -80,31 +81,7 @@ namespace MyToDo.Api.Services
       }
     }
 
-
-    public async Task<ApiResponse> GetAllAsync(QueryParameter parameter)
-    {
-      try
-      {
-        //var toDos = await toDoRepo.GetAllAsync(predicate: t=>
-        //  string.IsNullOrWhiteSpace(parameter.Search) ? true : t.Title.Contains(parameter.Search),
-        //  pageIndex: parameter.PageIndex,
-        //  pageSize: parameter.PageSize,
-        //  orderBy: source => source.OrderByDescending(t => t.CreatedAt)
-        //);
-        var todos = await toDoRepo.GetPagedListAsync(predicate:
-                  x => string.IsNullOrWhiteSpace(parameter.Search) ? true : x.Title.Contains(parameter.Search),
-                  pageIndex: parameter.PageIndex,
-                  pageSize: parameter.PageSize,
-                  orderBy: source => source.OrderByDescending(t => t.CreatedAt));
-        return new ApiResponse(true, todos);
-      }
-      catch (Exception ex)
-      {
-        return new ApiResponse(ex.Message);
-      }
-    }
-
-    public async Task<ApiResponse> GetByIdAsync(int id)
+       public async Task<ApiResponse> GetByIdAsync(int id)
     {
       try
       {
@@ -121,6 +98,39 @@ namespace MyToDo.Api.Services
       }
     }
 
-   
+    public async Task<ApiResponse> GetAllAsync(QueryParameter parameter)
+    {
+      try
+      {
+        var todos = await toDoRepo.GetPagedListAsync(predicate:
+                  x => string.IsNullOrWhiteSpace(parameter.Search) ? true : x.Title.Contains(parameter.Search),
+                  pageIndex: parameter.PageIndex,
+                  pageSize: parameter.PageSize,
+                  orderBy: source => source.OrderByDescending(t => t.CreatedAt));
+        return new ApiResponse(true, todos);
+      }
+      catch (Exception ex)
+      {
+        return new ApiResponse(ex.Message);
+      }
+    }
+
+
+    public async Task<ApiResponse> GetAllFilterAsync(ToDoQueryParameter parameter)
+    {
+      try
+      {
+        var todos = await toDoRepo.GetPagedListAsync(predicate:
+                  x => string.IsNullOrWhiteSpace(parameter.Search) ? true : x.Title.Contains(parameter.Search),
+                  pageIndex: parameter.PageIndex,
+                  pageSize: parameter.PageSize,
+                  orderBy: source => source.OrderByDescending(t => t.CreatedAt));
+        return null;
+      }
+      catch (Exception ex)
+      {
+        return new ApiResponse(ex.Message);
+      }
+    }
   }
 }

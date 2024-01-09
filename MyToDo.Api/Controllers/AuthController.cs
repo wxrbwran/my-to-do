@@ -2,6 +2,7 @@
 using MyToDo.Api.Models;
 using MyToDo.Api.Services;
 using MyToDo.Api.UnitOfWork;
+using MyToDo.Shared;
 using MyToDo.Shared.Dtos;
 using MyToDo.Shared.Parameters;
 

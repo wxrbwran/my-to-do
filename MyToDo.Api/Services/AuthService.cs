@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MyToDo.Api.Models;
 using MyToDo.Api.UnitOfWork;
+using MyToDo.Shared;
 using MyToDo.Shared.Dtos;
 using System.Security.Principal;
 

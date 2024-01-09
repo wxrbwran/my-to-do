@@ -1,5 +1,7 @@
 ﻿using MyToDo.Shared.Dtos;
+using MyToDo.Shared.Parameters;
 using MyToDO.Common.Models;
+using MyToDO.Service;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -13,12 +15,15 @@ namespace MyToDO.ViewModels
 {
   public class MemoViewModel: BindableBase
   {
-    public MemoViewModel()
+		private readonly IMemoService service;
+
+		public MemoViewModel(IMemoService service)
     {
       MemoDtos = new ObservableCollection<MemoDto>();
       ShowAddMemoCommand = new DelegateCommand(ShowAddMemo);
-      CreateTestDtos();
-    }
+			this.service = service;
+			HandleGetMemoLists();
+		}
 
     private bool isRightDrawerOpen;
 
@@ -37,19 +42,26 @@ namespace MyToDO.ViewModels
     public DelegateCommand ShowAddMemoCommand { get; private set; }
 
     private ObservableCollection<MemoDto> memoDtos;
-
-    public ObservableCollection<MemoDto> MemoDtos
+		public ObservableCollection<MemoDto> MemoDtos
     {
       get { return memoDtos; }
       set { memoDtos = value; RaisePropertyChanged(); }
     }
 
-    void CreateTestDtos()
-    {
-      for (int i = 0; i < 20; i++)
-      {
-        memoDtos.Add(new MemoDto() { Id = i, Title = $"待办{i}", Content = $"待办内容{i}", CreatedAt = DateTime.Now });
-      }
-    }
-  }
+		public async void HandleGetMemoLists()
+		{
+			var resp = await service.GetAllAsync(new QueryParameter()
+			{
+				PageIndex = 0,
+				PageSize = 100,
+			});
+			if (resp.Status)
+			{
+				foreach (var item in resp.Result.Items)
+				{
+					memoDtos.Add(item);
+				}
+			}
+		}
+	}
 }
