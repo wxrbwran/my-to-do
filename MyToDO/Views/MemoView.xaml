@@ -4,11 +4,13 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:MyToDO.Views"
+	xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
   d:DesignHeight="450"
   d:DesignWidth="800"
   mc:Ignorable="d">
+	
   <md:DialogHost>
     <md:DrawerHost IsRightDrawerOpen="{Binding IsRightDrawerOpen}">
       <md:DrawerHost.RightDrawerContent>
@@ -26,16 +28,20 @@
           <TextBox
             Margin="0,20"
             md:HintAssist.Hint="请输入备忘录标题"
+						Text="{Binding CurrentDto.Title}"
             DockPanel.Dock="Top" />
           <TextBox
             MinHeight="120"
             MaxHeight="450"
+						Text="{Binding CurrentDto.Content}"
             md:HintAssist.Hint="请输入备忘录内容"
             DockPanel.Dock="Top"
             TextWrapping="WrapWithOverflow" />
           <Button
             Margin="0,20,0,0"
             Content="添加到备忘录"
+						CommandParameter="SaveEditMemo"
+						Command="{Binding ExecuteCommand}"
             DockPanel.Dock="Top" />
         </DockPanel>
       </md:DrawerHost.RightDrawerContent>
@@ -45,20 +51,43 @@
           <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Margin="15,0,0,0" Orientation="Horizontal">
-          <TextBox
+					<TextBox
             Width="250"
             VerticalAlignment="Center"
             md:HintAssist.Hint="查找备忘录"
-            md:TextFieldAssist.HasClearButton="True" />
+						Text="{Binding Search,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+            md:TextFieldAssist.HasClearButton="True" >
+						<TextBox.InputBindings>
+							<KeyBinding
+                Key="Enter"
+                Command="{Binding ExecuteCommand}"
+                CommandParameter="SearchMemo" />  
+						</TextBox.InputBindings>
+					</TextBox>
 
-        </StackPanel>
+				</StackPanel>
         <Button
           Margin="10,5"
           HorizontalAlignment="Right"
-          Command="{Binding ShowAddMemoCommand}">
+					CommandParameter="ShowAddMemo"
+          Command="{Binding ExecuteCommand}">
           + 添加备忘录
         </Button>
-        <ScrollViewer Grid.Row="1">
+				<StackPanel
+          Grid.Row="1"
+          VerticalAlignment="Center"
+          Visibility="{Binding IsEmptyData}">
+					        <Image
+            Width="112"
+            Height="160"
+            Source="/Assets/Images/data.jpg" />
+					        <TextBlock
+            Margin="0,10,0,0"
+            FontSize="18"
+            Text="暂无数据"
+            TextAlignment="Center" />
+				</StackPanel>
+				<ScrollViewer Grid.Row="1">
           <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding MemoDtos}">
             <ItemsControl.ItemsPanel>
               <ItemsPanelTemplate>
@@ -73,18 +102,29 @@
                     MinHeight="180"
                     MaxHeight="250"
                     Margin="8">
-                    <Grid.RowDefinitions>
+										<i:Interaction.Triggers>
+											<i:EventTrigger  EventName="MouseLeftButtonUp">
+												<i:InvokeCommandAction
+						              CommandParameter="{Binding}"
+						              Command="{Binding DataContext.SelectedCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+				                />      
+											</i:EventTrigger>
+										</i:Interaction.Triggers>
+										<Grid.RowDefinitions>
                       <RowDefinition Height="auto" />
                       <RowDefinition />
                     </Grid.RowDefinitions>
                     <md:PopupBox HorizontalAlignment="Right" Panel.ZIndex="1">
-                      <Button Content="删除" />
+                      <Button Content="删除"
+												CommandParameter="{Binding}"
+												Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+											/>
                     </md:PopupBox>
-                    <Border
+										<Border
                       Grid.RowSpan="2"
-                      Background="Green"
-                      CornerRadius="3" />
-                    <TextBlock
+                      CornerRadius="3" Background="#1e90ff" >
+										</Border>
+										<TextBlock
                       Padding="10,5"
                       FontWeight="Bold"
                       Text="{Binding Title}" />

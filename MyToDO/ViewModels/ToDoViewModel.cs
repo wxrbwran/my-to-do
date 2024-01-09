@@ -20,8 +20,9 @@ namespace MyToDO.ViewModels
     private readonly IToDoService service;
     public DelegateCommand<ToDoDto> SelectedCommand { get; private set; }
     public DelegateCommand<ToDoDto> DeleteCommand { get; private set; }
+		public DelegateCommand<string> ExecuteCommand { get; private set; }
 
-    public ToDoViewModel(IToDoService service, IContainerProvider provider): base(provider) 
+		public ToDoViewModel(IToDoService service, IContainerProvider provider): base(provider) 
 		{
 			TodoDtos = new ObservableCollection<ToDoDto>();
       ExecuteCommand = new DelegateCommand<string>(Execute);
@@ -73,10 +74,6 @@ namespace MyToDO.ViewModels
       set { currentDto = value; RaisePropertyChanged(); }
     }
     #region simple command
-
-
-    public DelegateCommand<string> ExecuteCommand { get; private set; }
-
     private void Execute(string command)
     {
       switch (command)
@@ -165,8 +162,6 @@ namespace MyToDO.ViewModels
       }
       catch (Exception ex) { }
     }
-		public DelegateCommand ShowAddToDoCommand { get; private set; }
-
     private ObservableCollection<ToDoDto> todoDtos;
 
     public ObservableCollection<ToDoDto> TodoDtos
