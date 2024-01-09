@@ -3,11 +3,6 @@ using Prism.Events;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyToDO.ViewModels
 {
@@ -16,7 +11,7 @@ namespace MyToDO.ViewModels
 		private readonly IContainerProvider provider;
 		private readonly IEventAggregator aggregator;
 
-		public NavigationViewModel(IContainerProvider provider) 
+		public NavigationViewModel(IContainerProvider provider)
 		{
 			this.provider = provider;
 			aggregator = provider.Resolve<IEventAggregator>();
@@ -36,7 +31,7 @@ namespace MyToDO.ViewModels
 
 		}
 
-		public void UpdateLoading(bool IsOpen) 
+		public void UpdateLoading(bool IsOpen)
 		{
 			aggregator.UpdateLoading(new Events.UpdateModal()
 			{

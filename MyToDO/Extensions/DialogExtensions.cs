@@ -1,10 +1,5 @@
 ﻿using MyToDO.Events;
 using Prism.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyToDO.Extensions
 {
@@ -15,7 +10,7 @@ namespace MyToDO.Extensions
 		/// </summary>
 		/// <param name="aggregator"></param>
 		/// <param name="updateModal"></param>
-		public static void UpdateLoading(this IEventAggregator aggregator, UpdateModal updateModal) 
+		public static void UpdateLoading(this IEventAggregator aggregator, UpdateModal updateModal)
 		{
 			aggregator.GetEvent<UpdateLoadingEvents>().Publish(updateModal);
 		}

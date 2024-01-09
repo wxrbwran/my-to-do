@@ -1,26 +1,34 @@
 ﻿using MyToDo.Shared.Dtos;
+using MyToDO.Common;
 using MyToDO.Common.Models;
+using Prism.Commands;
+using Prism.Ioc;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
+using Prism.Services.Dialogs;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 
 namespace MyToDO.ViewModels
 {
-  public class IndexViewModel: BindableBase
-  {
-    public IndexViewModel() {
+	public class IndexViewModel : NavigationViewModel
+	{
+		public DelegateCommand<string> ExecuteCommand { get; private set; }
+		private readonly IDialogHostService dialogService;
+
+		public IndexViewModel(IContainerProvider provider, IDialogHostService dialogService) : base(provider)
+		{
 
 			TaskBars = new ObservableCollection<IndexTaskBar>();
+			ToDoDtos = new ObservableCollection<ToDoDto>();
+			MemoDtos = new ObservableCollection<MemoDto>();
+			ExecuteCommand = new DelegateCommand<string>(Execute);
 			CreateTaskBars();
-      CreateTestData();
+			this.dialogService = dialogService;
 		}
 
-  
-    private ObservableCollection<IndexTaskBar> taskBars;
+
+		#region 属性
+		private ObservableCollection<IndexTaskBar> taskBars;
 
 		public ObservableCollection<IndexTaskBar> TaskBars
 		{
@@ -28,42 +36,56 @@ namespace MyToDO.ViewModels
 			set { taskBars = value; RaisePropertyChanged(); }
 		}
 
-    private ObservableCollection<ToDoDto> todoDtos;
+		private ObservableCollection<ToDoDto> todoDtos;
 
-    public ObservableCollection<ToDoDto> ToDoDtos
-    {
-      get { return todoDtos; }
-      set { todoDtos = value; RaisePropertyChanged(); }
-    }
+		public ObservableCollection<ToDoDto> ToDoDtos
+		{
+			get { return todoDtos; }
+			set { todoDtos = value; RaisePropertyChanged(); }
+		}
 
-    private ObservableCollection<MemoDto> memoDtos;
+		private ObservableCollection<MemoDto> memoDtos;
 
-    public ObservableCollection<MemoDto> MemoDtos
-    {
-      get { return memoDtos; }
-      set { memoDtos = value; RaisePropertyChanged(); }
-    }
+		public ObservableCollection<MemoDto> MemoDtos
+		{
+			get { return memoDtos; }
+			set { memoDtos = value; RaisePropertyChanged(); }
+		}
+		#endregion 属性
 
+		private void Execute(string command)
+		{
+			switch (command)
+			{
+				case "AddToDo":
+					AddToDo(); break;
+				case "AddMemo":
+					AddMemo(); break;
+				
+			}
+		}
 
-    private void CreateTaskBars()
-    {
-      TaskBars.Add(new IndexTaskBar() { Icon = "ClockFast", Title = "汇总", Content = "9", Color = "#FF0CA0FF", Target = "" });
-      TaskBars.Add(new IndexTaskBar() { Icon = "ClockCheckOutline", Title = "已完成", Content = "8", Color = "#FF1ECA3A", Target = "" });
-      TaskBars.Add(new IndexTaskBar() { Icon = "ChartLineVariant", Title = "完成比例", Content = "89%", Color = "#FF02C6DC", Target = "" });
-      TaskBars.Add(new IndexTaskBar() { Icon = "PlaylistStar", Title = "备忘录", Content = "4", Color = "#FFFFA000", Target = "" });
-    }
+		private void AddMemo()
+		{
+			dialogService.ShowDialog("AddMemoView", null);
 
-    private void CreateTestData()
-    {
-      ToDoDtos = new ObservableCollection<ToDoDto>();
-      MemoDtos = new ObservableCollection<MemoDto>();
+		}
 
-      for (int i = 0; i < 10; i++)
-      {
-        ToDoDtos.Add(new ToDoDto() { Title=$"代办 {i}", Id=i, Content=$"正在做代办: {i}", CreatedAt=DateTime.Now,  });
-        MemoDtos.Add(new MemoDto() { Title = $"备忘 {i}", Id = i, Content = $"备忘内容: {i}", CreatedAt = DateTime.Now, });
-      }
-    }
+		private void AddToDo()
+		{
+			dialogService.ShowDialog("AddToDoView", null);
 
-  }
+		}
+
+		private void CreateTaskBars()
+		{
+			TaskBars.Add(new IndexTaskBar() { Icon = "ClockFast", Title = "汇总", Content = "9", Color = "#FF0CA0FF", Target = "" });
+			TaskBars.Add(new IndexTaskBar() { Icon = "ClockCheckOutline", Title = "已完成", Content = "8", Color = "#FF1ECA3A", Target = "" });
+			TaskBars.Add(new IndexTaskBar() { Icon = "ChartLineVariant", Title = "完成比例", Content = "89%", Color = "#FF02C6DC", Target = "" });
+			TaskBars.Add(new IndexTaskBar() { Icon = "PlaylistStar", Title = "备忘录", Content = "4", Color = "#FFFFA000", Target = "" });
+		}
+
+		
+
+	}
 }

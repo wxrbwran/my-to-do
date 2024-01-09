@@ -1,17 +1,12 @@
 ﻿using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyToDO.Common.Models
 {
-	  /// <summary>
-		/// 系统导航菜单实体类
-		/// </summary>
-    public class MenuBar:BindableBase
-    {
+	/// <summary>
+	/// 系统导航菜单实体类
+	/// </summary>
+	public class MenuBar : BindableBase
+	{
 		private string icon;
 
 		public string Icon

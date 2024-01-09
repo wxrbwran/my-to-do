@@ -1,18 +1,10 @@
 ﻿using MyToDo.Shared.Dtos;
 using MyToDo.Shared.Parameters;
-using MyToDO.Common.Models;
 using MyToDO.Service;
 using Prism.Commands;
 using Prism.Ioc;
-using Prism.Mvvm;
 using Prism.Regions;
-using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyToDO.ViewModels
 {
@@ -197,7 +189,7 @@ namespace MyToDO.ViewModels
 			base.OnNavigatedTo(navigationContext);
 			GetDataAsync();
 		}
-		#endregion  
+		#endregion
 
 	}
 }

@@ -1,14 +1,9 @@
 ﻿using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyToDO.Common.Models
 {
-  public class IndexTaskBar: BindableBase
-  {
+	public class IndexTaskBar : BindableBase
+	{
 		private string icon;
 
 		public string Icon
