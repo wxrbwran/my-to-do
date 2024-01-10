@@ -7,7 +7,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
 	Width="450"
-	Height="300"
+	Height="325"
 	mc:Ignorable="d">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -25,8 +25,11 @@
 				Margin="20,10"
 				DockPanel.Dock="Top"
 				Orientation="Horizontal">
-				<TextBlock Text="状态：" />
-				<ComboBox>
+				<TextBlock VerticalAlignment="Center" Text="状态：" />
+				<ComboBox
+					Margin="10,0,0,0"
+					VerticalAlignment="Center"
+					SelectedIndex="{Binding Model.Status}">
 					<ComboBoxItem>已完成</ComboBoxItem>
 					<ComboBoxItem>待办</ComboBoxItem>
 				</ComboBox>
@@ -34,14 +37,17 @@
 			<TextBox
 				Margin="20,0"
 				md:HintAssist.Hint="待办标题"
-				DockPanel.Dock="Top" />
+				DockPanel.Dock="Top"
+				Text="{Binding Model.Title}" />
 			<TextBox
+				Height="125"
 				MinHeight="80"
 				MaxHeight="150"
 				Margin="20,10"
 				md:HintAssist.Hint="待办内容"
 				AcceptsReturn="True"
 				DockPanel.Dock="Top"
+				Text="{Binding Model.Content}"
 				TextWrapping="Wrap" />
 		</DockPanel>
 		<StackPanel

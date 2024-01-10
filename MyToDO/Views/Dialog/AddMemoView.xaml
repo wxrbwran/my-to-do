@@ -24,14 +24,17 @@
 			<TextBox
 				Margin="20,0"
 				md:HintAssist.Hint="备忘录标题"
-				DockPanel.Dock="Top" />
+				DockPanel.Dock="Top"
+				Text="{Binding Model.Title}" />
 			<TextBox
+				Height="125"
 				MinHeight="80"
 				MaxHeight="150"
 				Margin="20,10"
 				md:HintAssist.Hint="备忘录内容"
 				AcceptsReturn="True"
 				DockPanel.Dock="Top"
+				Text="{Binding Model.Content}"
 				TextWrapping="Wrap" />
 		</DockPanel>
 		<StackPanel

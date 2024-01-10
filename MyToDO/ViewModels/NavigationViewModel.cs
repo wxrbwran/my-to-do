@@ -23,12 +23,10 @@ namespace MyToDO.ViewModels
 
 		public virtual void OnNavigatedFrom(NavigationContext navigationContext)
 		{
-
 		}
 
 		public virtual void OnNavigatedTo(NavigationContext navigationContext)
 		{
-
 		}
 
 		public void UpdateLoading(bool IsOpen)
