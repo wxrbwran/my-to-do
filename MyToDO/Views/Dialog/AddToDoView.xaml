@@ -30,8 +30,8 @@
 					Margin="10,0,0,0"
 					VerticalAlignment="Center"
 					SelectedIndex="{Binding Model.Status}">
-					<ComboBoxItem>已完成</ComboBoxItem>
 					<ComboBoxItem>待办</ComboBoxItem>
+					<ComboBoxItem>已完成</ComboBoxItem>
 				</ComboBox>
 			</StackPanel>
 			<TextBox

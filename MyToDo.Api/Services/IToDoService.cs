@@ -8,5 +8,8 @@ namespace MyToDo.Api.Services
   public interface IToDoService: IBaseService<ToDoDto>
   {
 		Task<ApiResponse> GetFilterAllAsync(ToDoQueryParameter queryParameter);
+
+		Task<ApiResponse> Summary();
+
 	}
 }
