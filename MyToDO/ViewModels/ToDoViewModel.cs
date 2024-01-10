@@ -67,6 +67,13 @@ namespace MyToDO.ViewModels
 			get { return currentDto; }
 			set { currentDto = value; RaisePropertyChanged(); }
 		}
+
+		private ObservableCollection<ToDoDto> todoDtos;
+		public ObservableCollection<ToDoDto> TodoDtos
+		{
+			get { return todoDtos; }
+			set { todoDtos = value; RaisePropertyChanged(); }
+		}
 		#endregion 属性
 
 		#region simple command
@@ -164,13 +171,6 @@ namespace MyToDO.ViewModels
 			}
 			catch (Exception ex) { }
 		}
-		private ObservableCollection<ToDoDto> todoDtos;
-
-		public ObservableCollection<ToDoDto> TodoDtos
-		{
-			get { return todoDtos; }
-			set { todoDtos = value; RaisePropertyChanged(); }
-		}
 
 		/// <summary>
 		/// 获取数据
@@ -201,6 +201,14 @@ namespace MyToDO.ViewModels
 		public override void OnNavigatedTo(NavigationContext navigationContext)
 		{
 			base.OnNavigatedTo(navigationContext);
+			if (navigationContext.Parameters.ContainsKey("Status"))
+			{
+				SelectedIndex = navigationContext.Parameters.GetValue<int>("Status");
+			}
+			else
+			{
+				SelectedIndex = 0;
+			}
 			GetDataAsync();
 		}
 	}

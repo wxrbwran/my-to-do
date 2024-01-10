@@ -41,17 +41,20 @@ namespace MyToDO.Views
 			{
 				mainWindowDrawerHost.IsLeftDrawerOpen = false;
 			};
-			this.Loaded += (s, e) => { };
 
 			// 注册等待消息窗口
-			aggregator.Register(arg =>
+			aggregator.RegisterUploading(arg =>
 			{
 				MainWindowDialogHost.IsOpen = arg.IsOpen;
 				if (arg.IsOpen)
 				{
 					MainWindowDialogHost.DialogContent = new ProgressView();
-
 				}
+			});
+			// 注册消息事件
+			aggregator.RegisterMessage(arg =>
+			{
+				mainWindowSnackBar.MessageQueue.Enqueue(arg);
 			});
 			this.dialogHostService = dialogHostService;
 		}

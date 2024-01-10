@@ -23,7 +23,7 @@
 		<TextBlock
 			Margin="10"
 			FontSize="20"
-			Text="你好，小然！今天是2024-01-06 星期六" />
+			Text="{Binding Welcome}" />
 		<ItemsControl Grid.Row="1" ItemsSource="{Binding TaskBars}">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
@@ -36,6 +36,12 @@
 						Margin="10,0"
 						Background="{Binding Color}"
 						CornerRadius="5">
+						<Border.InputBindings>
+							<MouseBinding
+								Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+								CommandParameter="{Binding}"
+								MouseAction="LeftClick" />
+						</Border.InputBindings>
 						<Border.Style>
 							<Style TargetType="Border">
 								<Style.Triggers>
@@ -95,7 +101,6 @@
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />
 				<ColumnDefinition />
-
 			</Grid.ColumnDefinitions>
 			<Border
 				Margin="10"

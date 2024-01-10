@@ -6,6 +6,7 @@ namespace MyToDO.Events
 	{
 		public bool IsOpen { get; set; }
 	}
+
 	public class UpdateLoadingEvents : PubSubEvent<UpdateModal>
 	{
 

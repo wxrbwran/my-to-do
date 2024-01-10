@@ -40,9 +40,28 @@ namespace MyToDO.Extensions
 		/// </summary>
 		/// <param name="aggregator"></param>
 		/// <param name="action"></param>
-		public static void Register(this IEventAggregator aggregator, Action<UpdateModal> action)
+		public static void RegisterUploading(this IEventAggregator aggregator, Action<UpdateModal> action)
 		{
 			aggregator.GetEvent<UpdateLoadingEvents>().Subscribe(action);
+		}
+
+		/// <summary>
+		/// 注册提示消息事件
+		/// </summary>
+		/// <param name="aggregator"></param>
+		/// <param name="action"></param>
+		public static void RegisterMessage(this IEventAggregator aggregator, Action<string> action)
+		{
+			aggregator.GetEvent<MessageEvents>().Subscribe(action);
+		}
+		/// <summary>
+		/// 发送提示消息
+		/// </summary>
+		/// <param name="aggregator"></param>
+		/// <param name="msg"></param>
+		public static void SendMessage(this IEventAggregator aggregator, string msg)
+		{
+			aggregator.GetEvent<MessageEvents>().Publish(msg);
 		}
 	}
 }
