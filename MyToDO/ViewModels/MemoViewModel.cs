@@ -1,5 +1,7 @@
 ﻿using MyToDo.Shared.Dtos;
 using MyToDo.Shared.Parameters;
+using MyToDO.Common;
+using MyToDO.Extensions;
 using MyToDO.Service;
 using Prism.Commands;
 using Prism.Ioc;
@@ -11,6 +13,8 @@ namespace MyToDO.ViewModels
 	public class MemoViewModel : NavigationViewModel
 	{
 		private readonly IMemoService service;
+		private readonly IDialogHostService dialogHostService;
+
 		public DelegateCommand<MemoDto> SelectedCommand { get; private set; }
 		public DelegateCommand<MemoDto> DeleteCommand { get; private set; }
 		public DelegateCommand<string> ExecuteCommand { get; private set; }
@@ -20,6 +24,7 @@ namespace MyToDO.ViewModels
 			memoDtos = new ObservableCollection<MemoDto>();
 			ExecuteCommand = new DelegateCommand<string>(Execute);
 			this.service = service;
+			dialogHostService = provider.Resolve<IDialogHostService>();
 			SelectedCommand = new DelegateCommand<MemoDto>(HandleSelectMemoItem);
 			DeleteCommand = new DelegateCommand<MemoDto>(HandleDeleteMemoItem);
 		}
@@ -156,6 +161,8 @@ namespace MyToDO.ViewModels
 		{
 			try
 			{
+				var result = await dialogHostService.Question(title: "危险操作", content: "删除后不可找回，确定删除吗？");
+				if (result.Result != Prism.Services.Dialogs.ButtonResult.OK) return;
 				await service.DeleteAsync(dto.Id);
 				GetDataAsync();
 			}

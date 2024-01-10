@@ -1,4 +1,5 @@
-﻿using MyToDO.Extensions;
+﻿using MyToDO.Common;
+using MyToDO.Extensions;
 using Prism.Events;
 using System.Windows;
 using System.Windows.Input;
@@ -10,9 +11,11 @@ namespace MyToDO.Views
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		private readonly IDialogHostService dialogHostService;
+
 		// private readonly IEventAggregator aggregator;
 
-		public MainWindow(IEventAggregator aggregator)
+		public MainWindow(IEventAggregator aggregator, IDialogHostService dialogHostService)
 		{
 			InitializeComponent();
 			btnMin.Click += (s, e) =>
@@ -20,8 +23,10 @@ namespace MyToDO.Views
 				this.WindowState = WindowState.Minimized;
 			};
 			btnMax.Click += (s, e) => HandleMinMaxWindow();
-			btnClose.Click += (s, e) =>
+			btnClose.Click += async (s, e) =>
 			{
+				var result = await dialogHostService.Question("确定退出吗", "点击确认退出系统");
+				if (result.Result != Prism.Services.Dialogs.ButtonResult.OK) return;
 				this.Close();
 			};
 			colorZone.MouseMove += (s, e) =>
@@ -48,6 +53,7 @@ namespace MyToDO.Views
 
 				}
 			});
+			this.dialogHostService = dialogHostService;
 		}
 		public void HandleMinMaxWindow()
 		{

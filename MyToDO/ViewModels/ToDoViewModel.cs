@@ -1,5 +1,7 @@
 ﻿using MyToDo.Shared.Dtos;
 using MyToDo.Shared.Parameters;
+using MyToDO.Common;
+using MyToDO.Extensions;
 using MyToDO.Service;
 using Prism.Commands;
 using Prism.Ioc;
@@ -11,6 +13,7 @@ namespace MyToDO.ViewModels
 	public class ToDoViewModel : NavigationViewModel
 	{
 		private readonly IToDoService service;
+		private readonly IDialogHostService dialogHostService;
 		public DelegateCommand<ToDoDto> SelectedCommand { get; private set; }
 		public DelegateCommand<ToDoDto> DeleteCommand { get; private set; }
 		public DelegateCommand<string> ExecuteCommand { get; private set; }
@@ -20,12 +23,13 @@ namespace MyToDO.ViewModels
 			TodoDtos = new ObservableCollection<ToDoDto>();
 			ExecuteCommand = new DelegateCommand<string>(Execute);
 			this.service = service;
+			dialogHostService = provider.Resolve<IDialogHostService>();
 			SelectedCommand = new DelegateCommand<ToDoDto>(HandleSelectToDoItem);
 			DeleteCommand = new DelegateCommand<ToDoDto>(HandleDeleteToDoItem);
 		}
 
+		#region 属性
 		private string isEmptyData;
-
 		public string IsEmptyData
 		{
 			get { return isEmptyData; }
@@ -33,7 +37,6 @@ namespace MyToDO.ViewModels
 		}
 
 		private int selectedIndex;
-
 		public int SelectedIndex
 		{
 			get { return selectedIndex; }
@@ -42,7 +45,6 @@ namespace MyToDO.ViewModels
 
 
 		private string search;
-
 		public string Search
 		{
 			get { return search; }
@@ -50,7 +52,6 @@ namespace MyToDO.ViewModels
 		}
 
 		private bool isRightDrawerOpen;
-
 		public bool IsRightDrawerOpen
 		{
 			get { return isRightDrawerOpen; }
@@ -66,6 +67,8 @@ namespace MyToDO.ViewModels
 			get { return currentDto; }
 			set { currentDto = value; RaisePropertyChanged(); }
 		}
+		#endregion 属性
+
 		#region simple command
 		private void Execute(string command)
 		{
@@ -154,6 +157,8 @@ namespace MyToDO.ViewModels
 		{
 			try
 			{
+				var result = await dialogHostService.Question(title: "危险操作", content:"删除后不可找回，确定删除吗？");
+				if (result.Result != Prism.Services.Dialogs.ButtonResult.OK) return;
 				await service.DeleteAsync(dto.Id);
 				GetDataAsync();
 			}
