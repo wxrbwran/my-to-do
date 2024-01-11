@@ -11,6 +11,7 @@
   <ItemGroup>
     <None Remove="Assets\Images\avatar.jpg" />
     <None Remove="Assets\Images\data.jpg" />
+    <None Remove="Assets\Images\login.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +32,7 @@
   <ItemGroup>
     <Resource Include="Assets\Images\avatar.jpg" />
     <Resource Include="Assets\Images\data.jpg" />
+    <Resource Include="Assets\Images\login.png" />
   </ItemGroup>
 
   <ItemGroup>
