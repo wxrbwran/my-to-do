@@ -3,6 +3,7 @@ using MyToDo.Api.Models;
 using MyToDo.Api.UnitOfWork;
 using MyToDo.Shared;
 using MyToDo.Shared.Dtos;
+using MyToDo.Shared.Extensions;
 using System.Security.Principal;
 
 namespace MyToDo.Api.Services
@@ -17,12 +18,12 @@ namespace MyToDo.Api.Services
       this.worker = unitOfWork;
       repo = unitOfWork.GetRepository<User>();
     }
-    public async Task<ApiResponse> LoginAsync(string Account, string Password)
+    public async Task<ApiResponse> LoginAsync(UserDto dto)
     {
       try
       {
         var user = await repo.GetFirstOrDefaultAsync(predicate: user =>
-          (user.Account.Equals(Account)) && (user.Password.Equals(Password))
+          (user.Account.Equals(dto.Account)) && (user.Password.Equals(dto.Password.GetMD5()))
         );
         if (user == null)
         {
@@ -48,6 +49,7 @@ namespace MyToDo.Api.Services
           return new ApiResponse($"账号{user.Account}已存在");
         }
         user.CreatedAt = DateTime.Now;
+        user.Password = user.Password.GetMD5();
         await repo.InsertAsync(user);
         int count = await worker.SaveChangesAsync();
         if (count > 0)
@@ -62,5 +64,7 @@ namespace MyToDo.Api.Services
       }
 
     }
-  }
+
+		
+	}
 }

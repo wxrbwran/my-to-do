@@ -18,11 +18,15 @@ namespace MyToDO.Views
     /// <summary>
     /// LoginView.xaml 的交互逻辑
     /// </summary>
-    public partial class LoginView : UserControl
+  public partial class LoginView : UserControl
+  {
+    public LoginView()
     {
-        public LoginView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
+
+		private void TextBlock_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+    }
+  }
 }

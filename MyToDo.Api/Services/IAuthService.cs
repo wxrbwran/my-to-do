@@ -7,7 +7,7 @@ namespace MyToDo.Api.Services
   public interface IAuthService
   {
 
-    public Task<ApiResponse> LoginAsync(string Account, string Password);
+    public Task<ApiResponse> LoginAsync(UserDto dto);
 
     public Task<ApiResponse> RegisterAsync(User user);
   }

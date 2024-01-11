@@ -25,6 +25,7 @@ namespace MyToDO
 		protected override void OnInitialized()
 		{
 			IDialogService dialogService = Container.Resolve<IDialogService>();
+			// 登录弹窗
 			dialogService.ShowDialog("LoginView", callback =>
 			{
 				if (callback.Result == ButtonResult.OK) 
@@ -64,6 +65,7 @@ namespace MyToDO
 			#region 服务
 			containerRegistry.Register<IToDoService, ToDoService>();
 			containerRegistry.Register<IMemoService, MemoService>();
+			containerRegistry.Register<IAuthService, AuthService>();
 			#endregion 服务
 
 			#region 其他

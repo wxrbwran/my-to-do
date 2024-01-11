@@ -20,8 +20,8 @@ public class AuthController: ControllerBase
   }
   
   [HttpPost]
-  public async Task<ApiResponse> LoginAsync(string Account, String Password) =>
-      await service.LoginAsync(Account, Password);
+  public async Task<ApiResponse> LoginAsync([FromBody] UserDto dto) =>
+      await service.LoginAsync(dto);
 
   [HttpPost]
   public async Task<ApiResponse> RegsiterAsync([FromBody] User user) => await service.RegisterAsync(user);
