@@ -27,7 +27,7 @@ namespace MyToDo.Api.Services
         );
         if (user == null)
         {
-          return new ApiResponse("登录失败");
+          return new ApiResponse("账号或密码错误");
         }
         return new ApiResponse(true, user);
       }

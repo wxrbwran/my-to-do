@@ -50,18 +50,32 @@ namespace MyToDO.Extensions
 		/// </summary>
 		/// <param name="aggregator"></param>
 		/// <param name="action"></param>
-		public static void RegisterMessage(this IEventAggregator aggregator, Action<string> action)
+		public static void RegisterMessage(
+			this IEventAggregator aggregator,
+			Action<MessageModel> action,
+			string filter = "MainWindow"
+		)
 		{
-			aggregator.GetEvent<MessageEvents>().Subscribe(action);
+			aggregator.GetEvent<MessageEvents>().Subscribe(
+				action,
+				ThreadOption.PublisherThread,
+				true,
+				//过滤
+				(msg) => msg.Filter.Contains(filter)
+			);
 		}
 		/// <summary>
 		/// 发送提示消息
 		/// </summary>
 		/// <param name="aggregator"></param>
 		/// <param name="msg"></param>
-		public static void SendMessage(this IEventAggregator aggregator, string msg)
+		public static void SendMessage(this IEventAggregator aggregator, string msg, string filter = "MainWindow")
 		{
-			aggregator.GetEvent<MessageEvents>().Publish(msg);
+			aggregator.GetEvent<MessageEvents>().Publish(new MessageModel()
+			{
+				Message = msg,
+				Filter = filter
+			});
 		}
 	}
 }

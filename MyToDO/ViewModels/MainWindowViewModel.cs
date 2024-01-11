@@ -2,6 +2,7 @@
 using MyToDO.Common.Models;
 using MyToDO.Extensions;
 using Prism.Commands;
+using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
 using System.Collections.ObjectModel;
@@ -10,11 +11,23 @@ namespace MyToDO.ViewModels
 {
 	public class MainWindowViewModel : BindableBase, IConfigureService
 	{
-		public MainWindowViewModel(IRegionManager regionManager)
+
+		private readonly IRegionManager regionManager;
+		private readonly IContainerProvider provider;
+		private IRegionNavigationJournal? journal;
+
+		public DelegateCommand<MenuBar> NavigateCommond { get; private set; }
+		public DelegateCommand GoBackCommond { get; private set; }
+		public DelegateCommand GoForWardCommond { get; private set; }
+		public DelegateCommand LogOutCommand { get; private set; }
+
+		public MainWindowViewModel(IRegionManager regionManager, IContainerProvider provider)
 		{
 			this.regionManager = regionManager;
+			this.provider = provider;
 			MenuBars = new ObservableCollection<MenuBar>();
 			// CreateMenuBars();
+			LogOutCommand = new DelegateCommand(LogOut);
 			NavigateCommond = new DelegateCommand<MenuBar>(Navagate);
 			GoBackCommond = new DelegateCommand(() =>
 			{
@@ -32,12 +45,17 @@ namespace MyToDO.ViewModels
 			});
 		}
 
-		private readonly IRegionManager regionManager;
-		private IRegionNavigationJournal? journal;
+		private void LogOut()
+		{
+			App.LogOut(provider);
+		}
 
-		public DelegateCommand<MenuBar> NavigateCommond { get; private set; }
-		public DelegateCommand GoBackCommond { get; private set; }
-		public DelegateCommand GoForWardCommond { get; private set; }
+		private string  username;
+		public string  Username
+		{
+			get { return username; }
+			set { username = value; RaisePropertyChanged(); }
+		}
 
 
 		private ObservableCollection<MenuBar>? menuBars;
@@ -46,6 +64,7 @@ namespace MyToDO.ViewModels
 			get { return menuBars!; }
 			set { menuBars = value; RaisePropertyChanged(); }
 		}
+
 
 		void CreateMenuBars()
 		{
@@ -69,6 +88,7 @@ namespace MyToDO.ViewModels
 		public void Configure()
 		{
 			CreateMenuBars();
+			Username = AppSession.Username;
 			regionManager.Regions[PrismRegionManager.MainWindowRegionName].RequestNavigate("IndexView", back =>
 			{
 				journal = back.Context.NavigationService.Journal;

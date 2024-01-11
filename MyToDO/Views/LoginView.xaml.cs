@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MyToDO.Extensions;
+using Prism.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,13 +22,17 @@ namespace MyToDO.Views
     /// </summary>
   public partial class LoginView : UserControl
   {
-    public LoginView()
-    {
-        InitializeComponent();
-    }
+		private readonly IEventAggregator aggregator;
 
-		private void TextBlock_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-    }
+		public LoginView(IEventAggregator aggregator)
+    {
+      InitializeComponent();
+			// this.aggregator = aggregator;
+			// 注册消息事件
+			aggregator.RegisterMessage(arg =>
+			{
+				loginViewSnackBar.MessageQueue.Enqueue(arg.Message);
+			}, "LoginView");
+		}
   }
 }

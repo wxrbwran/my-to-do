@@ -7,6 +7,7 @@ using MyToDO.Common.Models;
 using Prism.Events;
 using MyToDO.Extensions;
 using System.Windows;
+using MyToDO.Common;
 
 namespace MyToDO.ViewModels
 {
@@ -91,7 +92,11 @@ namespace MyToDO.ViewModels
 			var apiResponse = await service.LoginAsync(new MyToDo.Shared.Dtos.UserDto() { Account = Account, Password = Password });
 			if(apiResponse.Status)
 			{
+				AppSession.Username = apiResponse.Result.Username!;
 				RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+			} else
+			{
+				aggregator.SendMessage(apiResponse.Message, "LoginView");
 			}
 		}
 		private void LogOut()
@@ -104,12 +109,12 @@ namespace MyToDO.ViewModels
 			if (string.IsNullOrWhiteSpace(UserDto.Account) || string.IsNullOrWhiteSpace(UserDto.Username) ||
 				string.IsNullOrWhiteSpace(UserDto.Password) || string.IsNullOrWhiteSpace(UserDto.ConfirmPassword))
 			{
-				MessageBox.Show("请完善注册信息！");
+				aggregator.SendMessage("请完善注册信息！", "LoginView");
 				return;
 			}
 			if (!string.IsNullOrWhiteSpace(UserDto.Password).Equals(string.IsNullOrWhiteSpace(UserDto.ConfirmPassword)))
 			{
-				MessageBox.Show("密码不一致！");
+				aggregator.SendMessage("密码不一致！", "LoginView");
 				return;
 			}
 			ApiResponse resp = await service.RegisterAsync(new MyToDo.Shared.Dtos.UserDto() { 
@@ -120,12 +125,12 @@ namespace MyToDO.ViewModels
 			if (resp.Status && resp.Result != null)
 			{
 				// 注册成功
-				MessageBox.Show("注册成功！");
+				aggregator.SendMessage("注册成功！", "LoginView");
 				SelectedIndex = 0;
 			} else
 			{
 				// 注册失败
-				MessageBox.Show("注册失败！");
+				aggregator.SendMessage("注册失败！", "LoginView");
 			}
 		}
 

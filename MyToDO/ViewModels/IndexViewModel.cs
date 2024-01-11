@@ -31,7 +31,7 @@ namespace MyToDO.ViewModels
 
 		public IndexViewModel(IContainerProvider provider, IEventAggregator aggregator, IDialogHostService dialogService) : base(provider)
 		{
-			Welcome = $"你好，小然。今天是{DateTime.Now.GetDateTimeFormats('D')[1].ToString()}。";
+			Welcome = $"你好，{AppSession.Username}。今天是{DateTime.Now.GetDateTimeFormats('D')[1].ToString()}。";
 			TaskBars = new ObservableCollection<IndexTaskBar>();
 			CreateTaskBars();
 
