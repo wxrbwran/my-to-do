@@ -6,6 +6,7 @@ using MyToDo.Shared;
 using MyToDO.Common.Models;
 using Prism.Events;
 using MyToDO.Extensions;
+using System.Windows;
 
 namespace MyToDO.ViewModels
 {
@@ -79,7 +80,6 @@ namespace MyToDO.ViewModels
 					break;
 			}
 		}
-
 		
 		private async void Login()
 		{
@@ -104,12 +104,12 @@ namespace MyToDO.ViewModels
 			if (string.IsNullOrWhiteSpace(UserDto.Account) || string.IsNullOrWhiteSpace(UserDto.Username) ||
 				string.IsNullOrWhiteSpace(UserDto.Password) || string.IsNullOrWhiteSpace(UserDto.ConfirmPassword))
 			{
-				aggregator.SendMessage("请完善注册信息！");
+				MessageBox.Show("请完善注册信息！");
 				return;
 			}
 			if (!string.IsNullOrWhiteSpace(UserDto.Password).Equals(string.IsNullOrWhiteSpace(UserDto.ConfirmPassword)))
 			{
-				aggregator.SendMessage("密码不一致！");
+				MessageBox.Show("密码不一致！");
 				return;
 			}
 			ApiResponse resp = await service.RegisterAsync(new MyToDo.Shared.Dtos.UserDto() { 
@@ -120,12 +120,12 @@ namespace MyToDO.ViewModels
 			if (resp.Status && resp.Result != null)
 			{
 				// 注册成功
-				aggregator.SendMessage("注册成功！");
+				MessageBox.Show("注册成功！");
 				SelectedIndex = 0;
 			} else
 			{
 				// 注册失败
-				aggregator.SendMessage("注册失败！");
+				MessageBox.Show("注册失败！");
 			}
 		}
 
