@@ -45,7 +45,7 @@ namespace MyToDO
 			// 登录弹窗
 			dialogService.ShowDialog("LoginView", callback =>
 			{
-				if (callback.Result == ButtonResult.No) 
+				if (callback.Result != ButtonResult.OK) 
 				{
 					// Application.Current.Shutdown();
 					Environment.Exit(0);
