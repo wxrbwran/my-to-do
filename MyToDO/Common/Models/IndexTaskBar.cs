@@ -19,6 +19,13 @@ namespace MyToDO.Common.Models
 			get { return title; }
 			set { title = value; }
 		}
+		private int mainWindowMenuIndex;
+
+		public int MainWindowMenuIndex
+		{
+			get { return mainWindowMenuIndex; }
+			set { mainWindowMenuIndex = value; RaisePropertyChanged(); }
+		}
 
 		private string content;
 

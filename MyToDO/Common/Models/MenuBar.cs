@@ -7,8 +7,14 @@ namespace MyToDO.Common.Models
 	/// </summary>
 	public class MenuBar : BindableBase
 	{
-		private string icon;
+		private int index;
+		public int Index
+		{
+			get { return index; }
+			set { index = value; }
+		}
 
+		private string icon;
 		public string Icon
 		{
 			get { return icon; }
@@ -16,7 +22,6 @@ namespace MyToDO.Common.Models
 		}
 
 		private string title;
-
 		public string Title
 		{
 			get { return title; }
@@ -24,7 +29,6 @@ namespace MyToDO.Common.Models
 		}
 
 		private string nameSpace;
-
 		public string NameSpace
 		{
 			get { return nameSpace; }

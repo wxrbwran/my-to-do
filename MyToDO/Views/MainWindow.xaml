@@ -51,10 +51,11 @@
 					<ListBox
 						x:Name="memuBars"
 						ItemContainerStyle="{StaticResource MainWindowDrawerListBoxStyle}"
-						ItemsSource="{Binding MenuBars}">
+						ItemsSource="{Binding MenuBars}"
+						SelectedIndex="{Binding SelectedMenuIndex}">
 						<i:Interaction.Triggers>
 							<i:EventTrigger EventName="SelectionChanged">
-								<i:InvokeCommandAction Command="{Binding NavigateCommond}" CommandParameter="{Binding ElementName=memuBars, Path=SelectedItem}" />
+								<i:InvokeCommandAction Command="{Binding NavigateCommond}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}, Path=SelectedItem}" />
 							</i:EventTrigger>
 						</i:Interaction.Triggers>
 						<ListBox.ItemTemplate>

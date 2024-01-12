@@ -96,6 +96,7 @@ namespace MyToDO.ViewModels
 			{
 				param.Add("Status", 2);
 			}
+			aggregator.SendMessage($"{bar.MainWindowMenuIndex}", "MainWindowMenuIndex");
 			regionManager.Regions[PrismRegionManager.MainWindowRegionName]
 				.RequestNavigate(bar.Target, param);
 		}
@@ -179,10 +180,10 @@ namespace MyToDO.ViewModels
 
 		private void CreateTaskBars()
 		{
-			TaskBars.Add(new IndexTaskBar() { Icon = "ClockFast", Title = "汇总", Content = "0", Color = "#FF0CA0FF", Target = "ToDoView" });
-			TaskBars.Add(new IndexTaskBar() { Icon = "ClockCheckOutline", Title = "已完成", Content = "0", Color = "#FF1ECA3A", Target = "ToDoView" });
-			TaskBars.Add(new IndexTaskBar() { Icon = "ChartLineVariant", Title = "完成比例", Content = "0%", Color = "#FF02C6DC", Target = "" });
-			TaskBars.Add(new IndexTaskBar() { Icon = "PlaylistStar", Title = "备忘录", Content = "0", Color = "#FFFFA000", Target = "MemoView" });
+			TaskBars.Add(new IndexTaskBar() { Icon = "ClockFast", Title = "汇总", Content = "0", MainWindowMenuIndex = 1, Color = "#FF0CA0FF", Target = "ToDoView" });
+			TaskBars.Add(new IndexTaskBar() { Icon = "ClockCheckOutline", Title = "已完成", Content = "0", MainWindowMenuIndex = 1, Color = "#FF1ECA3A", Target = "ToDoView" });
+			TaskBars.Add(new IndexTaskBar() { Icon = "ChartLineVariant", Title = "完成比例", Content = "0%", MainWindowMenuIndex = 1, Color = "#FF02C6DC", Target = "" });
+			TaskBars.Add(new IndexTaskBar() { Icon = "PlaylistStar", Title = "备忘录", Content = "0", MainWindowMenuIndex = 2, Color = "#FFFFA000", Target = "MemoView" });
 		}
 		private async Task HandleLoadData() 
 		{

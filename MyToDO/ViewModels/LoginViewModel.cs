@@ -6,7 +6,6 @@ using MyToDo.Shared;
 using MyToDO.Common.Models;
 using Prism.Events;
 using MyToDO.Extensions;
-using System.Windows;
 using MyToDO.Common;
 
 namespace MyToDO.ViewModels

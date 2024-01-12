@@ -61,7 +61,7 @@ namespace MyToDO.Extensions
 				ThreadOption.PublisherThread,
 				true,
 				//过滤
-				(msg) => msg.Filter.Contains(filter)
+				(msg) => msg.Filter.Equals(filter)
 			);
 		}
 		/// <summary>

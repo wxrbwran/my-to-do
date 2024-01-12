@@ -52,10 +52,10 @@ namespace MyToDO.Views
 				}
 			});
 			// 注册消息事件
-			aggregator.RegisterMessage(arg =>
+			aggregator.RegisterMessage(messageModel =>
 			{
-				mainWindowSnackBar.MessageQueue.Enqueue(arg);
-			});
+				mainWindowSnackBar.MessageQueue.Enqueue(messageModel.Message);
+			}, "MainWindow");
 			this.dialogHostService = dialogHostService;
 		}
 		public void HandleMinMaxWindow()
