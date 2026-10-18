@@ -1,0 +1,88 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:MyToDo.Desktop.ViewModels"
+             xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="MyToDo.Desktop.Views.LoginView"
+             x:DataType="vm:LoginViewModel">
+    <Grid Background="{DynamicResource MaterialDesignPaper}">
+        <Border HorizontalAlignment="Center" VerticalAlignment="Center"
+                Width="420" Padding="32" CornerRadius="12"
+                Background="{DynamicResource MaterialDesignCardBackground}"
+                BoxShadow="0 8 24 0 #20000000">
+            <StackPanel Spacing="18">
+                <!-- 顶部 Logo 与标题 -->
+                <StackPanel HorizontalAlignment="Center" Spacing="8">
+                    <materialIcons:MaterialIcon Kind="CheckboxMarkedCircleOutline" Width="52" Height="52" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                    <TextBlock Text="{Binding IsRegisterMode, Converter={x:Null}, StringFormat={}{0}}"
+                               Classes="Headline5" HorizontalAlignment="Center" FontWeight="Bold">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}">
+                                <Binding Path="IsRegisterMode"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <TextBlock Text="MyToDo 跨平台任务管理" Classes="Headline5" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    <TextBlock Text="高效规划每一天 · 基于 .NET 10 &amp; Avalonia" Classes="Caption" Foreground="{DynamicResource MaterialDesignBodyLight}" HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- 错误提示 -->
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" FontSize="13" TextWrapping="Wrap"
+                           IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" HorizontalAlignment="Center"/>
+
+                <!-- 账号输入 -->
+                <TextBox Text="{Binding Account}" Watermark="请输入账号" Classes="outline" UseFloatingWatermark="True">
+                    <TextBox.InnerLeftContent>
+                        <materialIcons:MaterialIcon Kind="Account" Width="20" Height="20" Margin="10,0" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                    </TextBox.InnerLeftContent>
+                </TextBox>
+
+                <!-- 用户名（仅注册显示） -->
+                <TextBox Text="{Binding Username}" Watermark="请输入昵称" Classes="outline" UseFloatingWatermark="True"
+                         IsVisible="{Binding IsRegisterMode}">
+                    <TextBox.InnerLeftContent>
+                        <materialIcons:MaterialIcon Kind="AccountBadge" Width="20" Height="20" Margin="10,0" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                    </TextBox.InnerLeftContent>
+                </TextBox>
+
+                <!-- 密码输入 -->
+                <TextBox Text="{Binding Password}" Watermark="请输入密码" PasswordChar="●" Classes="outline" UseFloatingWatermark="True">
+                    <TextBox.InnerLeftContent>
+                        <materialIcons:MaterialIcon Kind="Lock" Width="20" Height="20" Margin="10,0" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                    </TextBox.InnerLeftContent>
+                </TextBox>
+
+                <!-- 确认密码（仅注册显示） -->
+                <TextBox Text="{Binding ConfirmPassword}" Watermark="请确认密码" PasswordChar="●" Classes="outline" UseFloatingWatermark="True"
+                         IsVisible="{Binding IsRegisterMode}">
+                    <TextBox.InnerLeftContent>
+                        <materialIcons:MaterialIcon Kind="LockCheck" Width="20" Height="20" Margin="10,0" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                    </TextBox.InnerLeftContent>
+                </TextBox>
+
+                <!-- 提交按钮 -->
+                <Button Command="{Binding SubmitCommand}" Height="46" CornerRadius="8"
+                        Background="{DynamicResource PrimaryHueMidBrush}" Foreground="White"
+                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <materialIcons:MaterialIcon Kind="Login" Width="20" Height="20"/>
+                        <TextBlock Text="立即登录" FontWeight="SemiBold" FontSize="15"
+                                   IsVisible="{Binding !IsRegisterMode}"/>
+                        <TextBlock Text="完成注册" FontWeight="SemiBold" FontSize="15"
+                                   IsVisible="{Binding IsRegisterMode}"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- 切换登录/注册 -->
+                <Button Command="{Binding ToggleModeCommand}" Classes="flat" HorizontalAlignment="Center">
+                    <Panel>
+                        <TextBlock Text="没有账号？立即注册" IsVisible="{Binding !IsRegisterMode}" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                        <TextBlock Text="已有账号？返回登录" IsVisible="{Binding IsRegisterMode}" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                    </Panel>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

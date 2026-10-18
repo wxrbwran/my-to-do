@@ -1,0 +1,70 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:MyToDo.Desktop.ViewModels"
+             xmlns:dtos="using:MyToDo.Shared.Dtos"
+             xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="700"
+             x:Class="MyToDo.Desktop.Views.MemoView"
+             x:DataType="vm:MemoViewModel">
+    <Grid RowDefinitions="Auto,*" Margin="20">
+        <!-- 顶部操作栏 -->
+        <Border Grid.Row="0" Margin="0,0,0,16" Padding="14,10" Background="{DynamicResource MaterialDesignCardBackground}" CornerRadius="10" BoxShadow="0 2 8 0 #15000000">
+            <Grid ColumnDefinitions="*,Auto,Auto">
+                <TextBox Grid.Column="0" Text="{Binding SearchKey}" Watermark="搜索备忘录便签..." Classes="outline" Height="42" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                <Button Grid.Column="1" Command="{Binding SearchCommand}" Height="42" CornerRadius="6" VerticalAlignment="Center" Margin="0,0,12,0" Background="{DynamicResource PrimaryHueMidBrush}" Foreground="White">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <materialIcons:MaterialIcon Kind="Magnify" Width="18" Height="18"/>
+                        <TextBlock Text="查询" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Grid.Column="2" Command="{Binding AddMemoCommand}" Height="42" CornerRadius="6" VerticalAlignment="Center" Background="{DynamicResource SecondaryHueMidBrush}" Foreground="White">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <materialIcons:MaterialIcon Kind="Plus" Width="18" Height="18"/>
+                        <TextBlock Text="新建便签" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- 便签瀑布流列表 -->
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding MemoList}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="dtos:MemoDto">
+                        <Border Width="260" MinHeight="160" Margin="8" Padding="16"
+                                Background="{DynamicResource MaterialDesignCardBackground}" CornerRadius="10" BoxShadow="0 3 10 0 #15000000">
+                            <Grid RowDefinitions="Auto,*,Auto">
+                                <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+                                    <TextBlock Text="{Binding Title}" FontSize="15" FontWeight="Bold" TextTrimming="CharacterEllipsis"/>
+                                    <Button Grid.Column="1" Classes="flat" Padding="2"
+                                            Command="{Binding ((vm:MemoViewModel)DataContext).DeleteMemoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}">
+                                        <materialIcons:MaterialIcon Kind="Close" Width="16" Height="16" Foreground="Gray"/>
+                                    </Button>
+                                </Grid>
+
+                                <TextBlock Grid.Row="1" Text="{Binding Content}" FontSize="13" TextWrapping="Wrap" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+
+                                <Button Grid.Row="2" Classes="flat" HorizontalAlignment="Right" Margin="0,8,0,0" Padding="8,4"
+                                        Command="{Binding ((vm:MemoViewModel)DataContext).EditMemoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <materialIcons:MaterialIcon Kind="Pencil" Width="14" Height="14" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                                        <TextBlock Text="编辑" FontSize="12" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
