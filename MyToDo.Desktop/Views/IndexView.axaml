@@ -5,16 +5,23 @@
              xmlns:vm="using:MyToDo.Desktop.ViewModels"
              xmlns:models="using:MyToDo.Desktop.Models"
              xmlns:dtos="using:MyToDo.Shared.Dtos"
+             xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
              xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="700"
              x:Class="MyToDo.Desktop.Views.IndexView"
              x:DataType="vm:IndexViewModel">
-    <ScrollViewer Margin="20">
+    <ScrollViewer Margin="24">
         <StackPanel Spacing="20">
             <!-- 问候语 -->
-            <Border Padding="16,12" Background="{DynamicResource MaterialDesignCardBackground}" CornerRadius="10" BoxShadow="0 2 8 0 #15000000">
-                <TextBlock Text="{Binding Welcome}" FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource MaterialDesignBody}"/>
-            </Border>
+            <suki:GlassCard Padding="20,16" CornerRadius="12">
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{Binding Welcome}" FontSize="18" FontWeight="Bold"/>
+                        <TextBlock Text="今天也是高效专注的一天，开始规划你的任务吧！" FontSize="12" Foreground="{DynamicResource SukiLowText}"/>
+                    </StackPanel>
+                    <materialIcons:MaterialIcon Grid.Column="1" Kind="WeatherSunny" Width="28" Height="28" Foreground="{DynamicResource SukiPrimaryColor}" VerticalAlignment="Center"/>
+                </Grid>
+            </suki:GlassCard>
 
             <!-- 统计看板卡片列表 -->
             <ItemsControl ItemsSource="{Binding TaskBars}">
@@ -27,19 +34,19 @@
                     <DataTemplate x:DataType="models:IndexTaskBar">
                         <Button Command="{Binding ((vm:IndexViewModel)DataContext).TaskBarNavigateCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                 CommandParameter="{Binding}"
-                                Margin="6" Padding="0" CornerRadius="10" Classes="flat"
+                                Margin="6" Padding="0" Classes="Basic"
                                 HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                            <Border Background="{DynamicResource MaterialDesignCardBackground}" Padding="16" CornerRadius="10" BoxShadow="0 4 12 0 #15000000">
+                            <suki:GlassCard Padding="18" CornerRadius="12">
                                 <Grid ColumnDefinitions="*,Auto">
-                                    <StackPanel Spacing="6">
-                                        <TextBlock Text="{Binding Title}" FontSize="13" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
-                                        <TextBlock Text="{Binding Content}" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource MaterialDesignBody}"/>
+                                    <StackPanel Spacing="8">
+                                        <TextBlock Text="{Binding Title}" FontSize="13" Foreground="{DynamicResource SukiLowText}"/>
+                                        <TextBlock Text="{Binding Content}" FontSize="26" FontWeight="Bold"/>
                                     </StackPanel>
-                                    <Border Grid.Column="1" Width="44" Height="44" CornerRadius="22" Background="{Binding Color}" Opacity="0.9" VerticalAlignment="Center">
-                                        <materialIcons:MaterialIcon Kind="{Binding Icon}" Width="24" Height="24" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Border Grid.Column="1" Width="44" Height="44" CornerRadius="22" Background="{Binding Color}" Opacity="0.85" VerticalAlignment="Center">
+                                        <materialIcons:MaterialIcon Kind="{Binding Icon}" Width="22" Height="22" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                 </Grid>
-                            </Border>
+                            </suki:GlassCard>
                         </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -48,76 +55,76 @@
             <!-- 待办与备忘录快捷视图 -->
             <Grid ColumnDefinitions="*,*">
                 <!-- 左侧：待办事项 -->
-                <Border Grid.Column="0" Margin="0,0,10,0" Padding="16" Background="{DynamicResource MaterialDesignCardBackground}" CornerRadius="10" BoxShadow="0 4 12 0 #15000000">
-                    <StackPanel Spacing="12">
+                <suki:GlassCard Grid.Column="0" Margin="0,0,10,0" Padding="18" CornerRadius="12">
+                    <StackPanel Spacing="14">
                         <Grid ColumnDefinitions="*,Auto">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <materialIcons:MaterialIcon Kind="FormatListCheckbox" Width="20" Height="20" Foreground="{DynamicResource PrimaryHueMidBrush}" VerticalAlignment="Center"/>
+                                <materialIcons:MaterialIcon Kind="FormatListCheckbox" Width="20" Height="20" Foreground="{DynamicResource SukiPrimaryColor}" VerticalAlignment="Center"/>
                                 <TextBlock Text="待办事项" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
                             </StackPanel>
-                            <Button Grid.Column="1" Command="{Binding AddToDoCommand}" Classes="flat" Padding="6">
-                                <materialIcons:MaterialIcon Kind="Plus" Width="20" Height="20" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                            <Button Grid.Column="1" Command="{Binding AddToDoCommand}" Classes="Basic" Padding="6">
+                                <materialIcons:MaterialIcon Kind="Plus" Width="20" Height="20" Foreground="{DynamicResource SukiPrimaryColor}"/>
                             </Button>
                         </Grid>
 
                         <ItemsControl ItemsSource="{Binding TodoList}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="dtos:ToDoDto">
-                                    <Border Margin="0,4" Padding="10" CornerRadius="6" Background="{DynamicResource MaterialDesignPaper}">
+                                    <suki:GlassCard Margin="0,4" Padding="12,10" CornerRadius="8">
                                         <Grid ColumnDefinitions="Auto,*,Auto">
-                                            <Button Grid.Column="0" Classes="flat" Padding="4"
+                                            <Button Grid.Column="0" Classes="Basic" Padding="4" Margin="0,0,8,0"
                                                     Command="{Binding ((vm:IndexViewModel)DataContext).ToggleToDoStatusCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                     CommandParameter="{Binding}">
-                                                <materialIcons:MaterialIcon Kind="CheckCircleOutline" Width="20" Height="20" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                                                <materialIcons:MaterialIcon Kind="CheckCircleOutline" Width="20" Height="20" Foreground="{DynamicResource SukiPrimaryColor}"/>
                                             </Button>
 
-                                            <Button Grid.Column="1" Classes="flat" Padding="6,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                            <Button Grid.Column="1" Classes="Basic" Padding="4" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
                                                     Command="{Binding ((vm:IndexViewModel)DataContext).EditToDoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                     CommandParameter="{Binding}">
-                                                <StackPanel Spacing="2">
+                                                <StackPanel Spacing="3">
                                                     <TextBlock Text="{Binding Title}" FontWeight="Medium" FontSize="14"/>
-                                                    <TextBlock Text="{Binding Content}" FontSize="12" Foreground="{DynamicResource MaterialDesignBodyLight}" TextTrimming="CharacterEllipsis"/>
+                                                    <TextBlock Text="{Binding Content}" FontSize="12" Foreground="{DynamicResource SukiLowText}" TextTrimming="CharacterEllipsis"/>
                                                 </StackPanel>
                                             </Button>
                                         </Grid>
-                                    </Border>
+                                    </suki:GlassCard>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </StackPanel>
-                </Border>
+                </suki:GlassCard>
 
                 <!-- 右侧：备忘便签 -->
-                <Border Grid.Column="1" Margin="10,0,0,0" Padding="16" Background="{DynamicResource MaterialDesignCardBackground}" CornerRadius="10" BoxShadow="0 4 12 0 #15000000">
-                    <StackPanel Spacing="12">
+                <suki:GlassCard Grid.Column="1" Margin="10,0,0,0" Padding="18" CornerRadius="12">
+                    <StackPanel Spacing="14">
                         <Grid ColumnDefinitions="*,Auto">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <materialIcons:MaterialIcon Kind="NoteTextOutline" Width="20" Height="20" Foreground="{DynamicResource SecondaryHueMidBrush}" VerticalAlignment="Center"/>
-                                <TextBlock Text="备忘录" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
+                                <materialIcons:MaterialIcon Kind="NoteTextOutline" Width="20" Height="20" Foreground="{DynamicResource SukiPrimaryColor}" VerticalAlignment="Center"/>
+                                <TextBlock Text="备忘录便签" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
                             </StackPanel>
-                            <Button Grid.Column="1" Command="{Binding AddMemoCommand}" Classes="flat" Padding="6">
-                                <materialIcons:MaterialIcon Kind="Plus" Width="20" Height="20" Foreground="{DynamicResource SecondaryHueMidBrush}"/>
+                            <Button Grid.Column="1" Command="{Binding AddMemoCommand}" Classes="Basic" Padding="6">
+                                <materialIcons:MaterialIcon Kind="Plus" Width="20" Height="20" Foreground="{DynamicResource SukiPrimaryColor}"/>
                             </Button>
                         </Grid>
 
                         <ItemsControl ItemsSource="{Binding MemoList}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="dtos:MemoDto">
-                                    <Border Margin="0,4" Padding="10" CornerRadius="6" Background="{DynamicResource MaterialDesignPaper}">
-                                        <Button Classes="flat" Padding="4" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                    <suki:GlassCard Margin="0,4" Padding="12,10" CornerRadius="8">
+                                        <Button Classes="Basic" Padding="4" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
                                                 Command="{Binding ((vm:IndexViewModel)DataContext).EditMemoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 CommandParameter="{Binding}">
-                                            <StackPanel Spacing="2">
+                                            <StackPanel Spacing="3">
                                                 <TextBlock Text="{Binding Title}" FontWeight="Medium" FontSize="14"/>
-                                                <TextBlock Text="{Binding Content}" FontSize="12" Foreground="{DynamicResource MaterialDesignBodyLight}" TextTrimming="CharacterEllipsis"/>
+                                                <TextBlock Text="{Binding Content}" FontSize="12" Foreground="{DynamicResource SukiLowText}" TextTrimming="CharacterEllipsis"/>
                                             </StackPanel>
                                         </Button>
-                                    </Border>
+                                    </suki:GlassCard>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </StackPanel>
-                </Border>
+                </suki:GlassCard>
             </Grid>
         </StackPanel>
     </ScrollViewer>
